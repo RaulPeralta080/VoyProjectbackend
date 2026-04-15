@@ -7,20 +7,26 @@ const connectDB = require('./config/db');
 // Cargar variables de entorno
 dotenv.config();
 
-// Ejecutar la conexión a la base de datos
+// Conectar a la base de datos
 connectDB();
 
 const app = express();
 
-// Middlewares fundamentales
-app.use(cors()); // Permite peticiones desde el frontend
-app.use(express.json()); // Permite leer los datos JSON que envíes por POST
+// Middlewares
+app.use(cors());
+app.use(express.json());
 
-// Ruta básica de prueba
+// --- RUTAS ---
+const eventRoutes = require('./routes/eventRoutes');
+app.use('/api/events', eventRoutes);
+// -------------
+
+// Ruta base de prueba
 app.get('/', (req, res) => {
   res.json({ mensaje: 'API de VOY funcionando correctamente' });
 });
 
+// Configuración del puerto
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
