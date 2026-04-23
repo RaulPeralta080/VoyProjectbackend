@@ -2,17 +2,15 @@ const Event = require('../models/Event');
 
 const getEvents = async (req, res) => {
   try {
-    // Buscamos y ordenamos por fecha ascendente (.sort({ fecha: 1 }))
+    // Obtenemos los eventos ordenados por fecha ascendente
     const eventos = await Event.find().sort({ fecha: 1 });
 
-    // Si no hay eventos, devolvemos array vacío (Status 200 OK)
+    // El campo 'estado' se incluirá automáticamente gracias al virtual definido en el modelo
     res.status(200).json(eventos);
-
   } catch (error) {
-    // Error con código y mensaje descriptivo
     res.status(500).json({ 
-      codigo: 'ERR_FETCH_EVENTS',
-      mensaje: 'Hubo un problema al obtener el listado de eventos.',
+      codigo: 'ERR_CARD_MINIMA',
+      mensaje: 'Error al procesar los datos para la card mínima.',
       error: error.message 
     });
   }
