@@ -2,10 +2,10 @@ const Event = require('../models/Event');
 
 const getEvents = async (req, res) => {
   try {
-    // Obtenemos los eventos ordenados por fecha ascendente
+    // Obtenemos los eventos ordenados por fecha ascendente (revisar mas adelante cuando este integrado).
     const eventos = await Event.find().sort({ fecha: 1 });
 
-    // El campo 'estado' se incluirá automáticamente gracias al virtual definido en el modelo
+    // El campo 'estado' se incluirá automáticamente (aca no tocar nada porfa)
     res.status(200).json(eventos);
   } catch (error) {
     res.status(500).json({ 

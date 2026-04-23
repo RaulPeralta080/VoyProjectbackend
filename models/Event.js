@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
   nombre: { type: String, required: true },
-  imagen: { type: String, default: 'https://via.placeholder.com/400' }, // Imagen por defecto si falta
+  imagen: { type: String, default: 'https://via.placeholder.com/400' }, // Imagen por defecto si falta (ya despues se puede actualizar por una mejor)
   generos: [{ type: String }],
   fecha: { type: Date, required: true },
   hora: { type: String, required: true },
@@ -16,11 +16,11 @@ const eventSchema = new mongoose.Schema({
   capacidadTotal: { type: Number, default: 1 } 
 }, { 
   timestamps: true,
-  toJSON: { virtuals: true }, // Importante para que el estado se envíe al frontend
+  toJSON: { virtuals: true }, // Importante para que el estado se envíe al frontend 
   toObject: { virtuals: true }
 });
 
-// Lógica de negocio para el campo "estado"
+// Lógica de negocio para el campo "estado" (revisar campo estado cuando integremos)
 eventSchema.virtual('estado').get(function() {
   if (this.stock === 0) return 'AGOTADO';
   
