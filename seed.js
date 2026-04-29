@@ -7,25 +7,25 @@ dotenv.config();
 const eventosDePrueba = [
   {
     nombre: "Festival de Rock Tucumano",
-    imagen: "https://via.placeholder.com/400",
+    imagen: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=400&q=80",
     generos: ["Rock", "Alternativo"],
     fecha: new Date("2026-05-20"),
     hora: "21:00",
     lugar: "Club Tucumán BB",
     precio: 5000,
-    artistas: ["Banda A", "Banda B"],
+    artistas: [{ nombre: "Banda A" }, { nombre: "Banda B" }],
     stock: 50,
     estado: "DISPONIBLE"
   },
   {
     nombre: "Feria Gastronómica",
-    imagen: "https://via.placeholder.com/400",
+    imagen: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=400&q=80",
     generos: ["Culinaria"],
     fecha: new Date("2026-04-30"), // Este debería aparecer primero por ser fecha más cercana
     hora: "12:00",
     lugar: "Parque 9 de Julio",
     precio: 0,
-    artistas: ["Chef Local"],
+    artistas: [{ nombre: "Chef Local" }],
     stock: 100,
     estado: "DISPONIBLE"
   }
