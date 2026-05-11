@@ -1,9 +1,17 @@
 {
   "dependencies": {
+<<<<<<< HEAD
+=======
+    "bcryptjs": "^3.0.3",
+>>>>>>> dfffbefead421cc154dcb2300e569dd5935f1fd3
     "colors": "^1.4.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+<<<<<<< HEAD
+=======
+    "jsonwebtoken": "^9.0.3",
+>>>>>>> dfffbefead421cc154dcb2300e569dd5935f1fd3
     "mongoose": "^9.4.1"
   },
   "devDependencies": {
