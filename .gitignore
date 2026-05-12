@@ -1,4 +1,33 @@
+# Dependencias
 node_modules/
+
+# Entorno y Configuración
 .env
-.DS_Store
+.env.*
+!.env.example
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Compilación y Cobertura
 dist/
+build/
+coverage/
+.nyc_output/
+
+# Archivos del Sistema Operativo
+.DS_Store
+Thumbs.db
+
+# Configuraciones de Editores e IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
