@@ -3,7 +3,7 @@ const Event = require('../models/Event');
 
 const getEvents = async (req, res) => {
   try {
-    const { genero, lugar, fecha } = req.query;
+    const { genero, lugar, fecha, limit } = req.query;
     let filter = {};
 
     // 1. Filtro por Género (acepta múltiples separados por coma)
@@ -37,7 +37,15 @@ const getEvents = async (req, res) => {
     }
 
     // Obtenemos los eventos ordenados por fecha ascendente y aplicamos el filtro
-    const eventos = await Event.find(filter).sort({ fecha: 1 });
+    let query = Event.find(filter).sort({ fecha: 1 });
+
+    // Si se pasa ?limit=N, limitamos los resultados (útil para la landing preview)
+    const parsedLimit = parseInt(limit);
+    if (!isNaN(parsedLimit) && parsedLimit > 0) {
+      query = query.limit(parsedLimit);
+    }
+
+    const eventos = await query;
 
     res.status(200).json(eventos);
   } catch (error) {

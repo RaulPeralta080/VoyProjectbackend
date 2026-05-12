@@ -1,34 +1,32 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const express = require('express');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const colors = require('colors');
+const connectDB = require('./config/db');
+const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 
-const userSchema = new mongoose.Schema({
-  nombre: { 
-    type: String, 
-    required: [true, 'El nombre es obligatorio'] 
-  },
-  email: { 
-    type: String, 
-    required: [true, 'El email es obligatorio'], 
-    unique: true 
-  },
-  password: { 
-    type: String, 
-    required: [true, 'La contraseña es obligatoria'] 
-  }
-}, { 
-  timestamps: true 
+// Cargar variables de entorno
+dotenv.config();
+
+// Conectar a MongoDB
+connectDB();
+
+const app = express();
+
+// Middlewares
+app.use(cors());
+app.use(express.json());
+
+// Rutas
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/events', require('./routes/eventRoutes'));
+
+// Manejo de errores
+app.use(notFound);
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en puerto ${PORT}`.green.bold);
 });
-
-// Encriptar password automáticamente antes de guardar (Criterio de aceptación)
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-});
-
-// Método para comparar contraseñas en el Login
-userSchema.methods.matchPassword = async function(enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
-};
-
-module.exports = mongoose.model('User', userSchema);

@@ -10,41 +10,53 @@ const registerUser = async (req, res) => {
     return res.status(400).json({ mensaje: 'Por favor, complete todos los campos' });
   }
 
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    return res.status(400).json({ mensaje: 'El email ya está registrado' });
-  }
+  try {
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ mensaje: 'El email ya está registrado' });
+    }
 
-  const user = await User.create({ nombre, email, password });
+    const user = await User.create({ nombre, email, password });
 
-  if (user) {
     res.status(201).json({
       _id: user._id,
       nombre: user.nombre,
       email: user.email,
       token: generateToken(user._id)
     });
+  } catch (error) {
+    console.error('Error en register:', error.message);
+    res.status(500).json({ mensaje: 'Error interno del servidor' });
   }
 };
 
-//Login de usuario
-//POST /api/auth/login
+// @desc    Login de usuario
+// @route   POST /api/auth/login
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email }).select('+password'); // Traemos el password solo para comparar
+  if (!email || !password) {
+    return res.status(400).json({ mensaje: 'Por favor, ingrese email y contraseña' });
+  }
 
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      nombre: user.nombre,
-      email: user.email,
-      token: generateToken(user._id)
-    });
-  } else {
-    // Mensaje genérico por seguridad
-    res.status(401).json({ mensaje: 'Email o contraseña incorrectos' });
+  try {
+    const user = await User.findOne({ email }).select('+password');
+
+    if (user && (await user.matchPassword(password))) {
+      res.json({
+        _id: user._id,
+        nombre: user.nombre,
+        email: user.email,
+        token: generateToken(user._id)
+      });
+    } else {
+      // Mensaje genérico por seguridad — no especificar si fue email o contraseña
+      res.status(401).json({ mensaje: 'Email o contraseña incorrectos' });
+    }
+  } catch (error) {
+    console.error('Error en login:', error.message);
+    res.status(500).json({ mensaje: 'Error interno del servidor' });
   }
 };
 
-module.exports = { registerUser, loginUser };
+module.exports = { registerUser, loginUser };
