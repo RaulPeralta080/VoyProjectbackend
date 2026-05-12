@@ -1,16 +1,9 @@
-<<<<<<< HEAD
-=======
 const mongoose = require('mongoose');
->>>>>>> dfffbefead421cc154dcb2300e569dd5935f1fd3
 const Event = require('../models/Event');
 
 const getEvents = async (req, res) => {
   try {
-<<<<<<< HEAD
     const { genero, lugar, fecha, limit } = req.query;
-=======
-    const { genero, lugar, fecha } = req.query;
->>>>>>> dfffbefead421cc154dcb2300e569dd5935f1fd3
     let filter = {};
 
     // 1. Filtro por Género (acepta múltiples separados por coma)
@@ -44,7 +37,6 @@ const getEvents = async (req, res) => {
     }
 
     // Obtenemos los eventos ordenados por fecha ascendente y aplicamos el filtro
-<<<<<<< HEAD
     let eventosQuery = Event.find(filter).sort({ fecha: 1 });
     
     // 4. Límite de resultados (Opcional)
@@ -56,9 +48,6 @@ const getEvents = async (req, res) => {
     }
 
     const eventos = await eventosQuery;
-=======
-    const eventos = await Event.find(filter).sort({ fecha: 1 });
->>>>>>> dfffbefead421cc154dcb2300e569dd5935f1fd3
 
     res.status(200).json(eventos);
   } catch (error) {
@@ -70,9 +59,6 @@ const getEvents = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-module.exports = { getEvents };
-=======
 // --- NUEVA FUNCIÓN PARA CARD MÁXIMA ---
 const getEventById = async (req, res) => {
   try {
@@ -104,4 +90,3 @@ const getEventById = async (req, res) => {
 };
 
 module.exports = { getEvents, getEventById };
->>>>>>> dfffbefead421cc154dcb2300e569dd5935f1fd3
