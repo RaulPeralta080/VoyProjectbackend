@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const { Types: { ObjectId } } = require('mongoose');
 const Event = require('../models/Event');
 
 const getEvents = async (req, res) => {
@@ -49,11 +49,7 @@ const getEvents = async (req, res) => {
 
     res.status(200).json(eventos);
   } catch (error) {
-    res.status(500).json({ 
-      codigo: 'ERR_CARD_MINIMA',
-      mensaje: 'Error al procesar los datos para la card mínima.',
-      error: error.message 
-    });
+    res.status(500).json({ mensaje: 'Error al obtener los eventos' });
   }
 };
 
@@ -63,7 +59,7 @@ const getEventById = async (req, res) => {
     const { id } = req.params;
 
     // Validar si el ID es un ObjectId de MongoDB válido (CRÍTICO)
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!ObjectId.isValid(id)) {
       return res.status(400).json({ 
         mensaje: 'ID de evento inválido' 
       });
@@ -80,10 +76,7 @@ const getEventById = async (req, res) => {
 
     res.status(200).json(evento);
   } catch (error) {
-    res.status(500).json({ 
-      mensaje: 'Error al obtener el detalle del evento',
-      error: error.message 
-    });
+    res.status(500).json({ mensaje: 'Error al obtener el detalle del evento' });
   }
 };
 

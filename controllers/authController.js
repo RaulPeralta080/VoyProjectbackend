@@ -25,7 +25,6 @@ const registerUser = async (req, res) => {
       token: generateToken(user._id)
     });
   } catch (error) {
-    console.error('Error en register:', error.message);
     res.status(500).json({ mensaje: 'Error interno del servidor' });
   }
 };
@@ -42,19 +41,17 @@ const loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ email }).select('+password');
 
-    if (user && (await user.matchPassword(password))) {
-      res.json({
-        _id: user._id,
-        nombre: user.nombre,
-        email: user.email,
-        token: generateToken(user._id)
-      });
-    } else {
-      // Mensaje genérico por seguridad — no especificar si fue email o contraseña
-      res.status(401).json({ mensaje: 'Email o contraseña incorrectos' });
+    if (!user || !(await user.matchPassword(password))) {
+      return res.status(401).json({ mensaje: 'Email o contraseña incorrectos' });
     }
+
+    res.json({
+      _id: user._id,
+      nombre: user.nombre,
+      email: user.email,
+      token: generateToken(user._id)
+    });
   } catch (error) {
-    console.error('Error en login:', error.message);
     res.status(500).json({ mensaje: 'Error interno del servidor' });
   }
 };

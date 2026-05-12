@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  nombre: { type: String, required: [true, 'El nombre es obligatorio'] },
-  email: { type: String, required: [true, 'El email es obligatorio'], unique: true },
-  password: { type: String, required: [true, 'La contraseña es obligatoria'] }
+  nombre:   { type: String, required: [true, 'El nombre es obligatorio'], trim: true },
+  email:    { type: String, required: [true, 'El email es obligatorio'], unique: true, lowercase: true, trim: true, index: true },
+  password: { type: String, required: [true, 'La contraseña es obligatoria'], select: false }
 }, { timestamps: true });
 
 // Encriptar password antes de guardar
