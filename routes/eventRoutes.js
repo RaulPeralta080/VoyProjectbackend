@@ -1,11 +1,8 @@
 const express = require('express');
-const router = express.Router();
+const router  = express.Router();
 const { getEvents, getEventById } = require('../controllers/eventController');
 
-// GET /api/eventos (siempre revisen las carpetas muchcachos)
-router.get('/', getEvents);
-
-// GET /api/events/:id (detalle completo para card máxima)
-router.get('/:id', getEventById);
+router.get('/',    getEvents);     // GET /api/events
+router.get('/:id', getEventById); // GET /api/events/:id
 
 module.exports = router;

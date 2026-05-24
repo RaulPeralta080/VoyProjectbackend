@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const colors = require('colors');
 const connectDB = require('./config/db');
-const { notFound, errorHandler } = require('./middlewares/errorMiddleware'); // <--- NUEVO
+const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 
 // Cargar variables de entorno
 dotenv.config();
@@ -26,14 +26,13 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // --- RUTAS ---
-const eventRoutes = require('./routes/eventRoutes');
-app.use('/api/events', eventRoutes);
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/events', require('./routes/eventRoutes'));
 
 // Ruta base de prueba
 app.get('/', (req, res) => {
   res.json({ mensaje: 'API de VOY funcionando correctamente' });
 });
-
 
 // la ruta no existe (404)
 app.use(notFound);

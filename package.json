@@ -1,7 +1,9 @@
 {
+  "name": "voy-project-backend",
+  "version": "0.1.0",
+  "description": "API REST para VOY Project — eventos musicales underground de Tucumán",
   "dependencies": {
     "bcryptjs": "^3.0.3",
-    "colors": "^1.4.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
