@@ -15,6 +15,7 @@ const eventosDePrueba = [
     precio: 5000,
     artistas: [{ nombre: "Banda A" }, { nombre: "Banda B" }],
     stock: 50,
+    capacidadTotal: 100,
     estado: "DISPONIBLE"
   },
   {
@@ -27,6 +28,7 @@ const eventosDePrueba = [
     precio: 3000,
     artistas: [{ nombre: "Los Ramones Tucumanos" }, { nombre: "Distorsión" }],
     stock: 100,
+    capacidadTotal: 200,
     estado: "DISPONIBLE"
   },
   {
@@ -39,6 +41,7 @@ const eventosDePrueba = [
     precio: 4000,
     artistas: [{ nombre: "Nirvana Cover Band" }],
     stock: 10,
+    capacidadTotal: 100,
     estado: "ÚLTIMAS ENTRADAS"
   },
   {
@@ -51,6 +54,7 @@ const eventosDePrueba = [
     precio: 6000,
     artistas: [{ nombre: "Sangre Acero" }, { nombre: "Muerte Subita" }, { nombre: "Calavera" }],
     stock: 0,
+    capacidadTotal: 50,
     estado: "AGOTADO"
   },
   {
@@ -63,6 +67,7 @@ const eventosDePrueba = [
     precio: 2500,
     artistas: [{ nombre: "Luz y Sombras" }],
     stock: 200,
+    capacidadTotal: 500,
     estado: "DISPONIBLE"
   },
   {
@@ -75,6 +80,7 @@ const eventosDePrueba = [
     precio: 8000,
     artistas: [{ nombre: "Cerati Experience" }],
     stock: 30,
+    capacidadTotal: 100,
     estado: "DISPONIBLE"
   }
 ];
