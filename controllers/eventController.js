@@ -1,6 +1,8 @@
 const { Types: { ObjectId } } = require('mongoose');
 const Event = require('../models/Event');
 
+// @desc    Obtener lista de eventos con filtros opcionales
+// @route   GET /api/events
 const getEvents = async (req, res) => {
   try {
     const { genero, lugar, fecha, limit } = req.query;
@@ -53,7 +55,8 @@ const getEvents = async (req, res) => {
   }
 };
 
-// --- NUEVA FUNCIÓN PARA CARD MÁXIMA ---
+// @desc    Obtener detalle de un evento por ID
+// @route   GET /api/events/:id
 const getEventById = async (req, res) => {
   try {
     const { id } = req.params;
