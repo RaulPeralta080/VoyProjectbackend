@@ -1,10 +1,20 @@
 const express    = require('express');
 const dotenv     = require('dotenv');
 const cors       = require('cors');
-const connectDB  = require('./config/db');
+const mongoose   = require('mongoose');
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 
 dotenv.config();
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log(`\x1b[36m✓ MongoDB conectado: ${conn.connection.host}\x1b[0m`);
+  } catch (error) {
+    console.error(`\x1b[31m✗ Error DB: ${error.message}\x1b[0m`);
+    process.exit(1);
+  }
+};
 connectDB();
 
 const app = express();
