@@ -11,6 +11,7 @@ const orderSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Event',
     required: [true, 'El ID del evento es obligatorio']
+<<<<<<< HEAD
   },
   cantidad: {
     type: Number,
@@ -40,9 +41,15 @@ const orderSchema = new mongoose.Schema({
     type: String,
     enum: ['PENDIENTE', 'CONFIRMADA'],
     default: 'CONFIRMADA'
+=======
+>>>>>>> 5ca3f5c94fa93eae54057201ae84b7f8bae98f6b
   }
 }, {
   timestamps: true
 });
 
+<<<<<<< HEAD
 module.exports = mongoose.model('Order', orderSchema);
+=======
+module.exports = mongoose.model('Order', orderSchema);
+>>>>>>> 5ca3f5c94fa93eae54057201ae84b7f8bae98f6b
