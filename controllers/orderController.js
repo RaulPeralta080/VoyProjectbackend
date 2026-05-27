@@ -1,18 +1,11 @@
 const Order = require('../models/Order');
-<<<<<<< HEAD
 const Event = require('../models/Event');
-
-
-const getMyOrders = async (req, res) => {
-  try {
-=======
 
 // @desc    Obtener órdenes del usuario autenticado
 // @route   GET /api/orders/mis-ordenes
 const getMyOrders = async (req, res) => {
   try {
     // Buscar órdenes asociadas al usuario autenticado, popular evento con campos específicos y ordenar por fecha de creación descendente
->>>>>>> 5ca3f5c94fa93eae54057201ae84b7f8bae98f6b
     const orders = await Order.find({ userId: req.user._id })
       .populate('eventId', 'nombre fecha lugar')
       .sort({ createdAt: -1 });
@@ -22,8 +15,6 @@ const getMyOrders = async (req, res) => {
     res.status(500).json({ mensaje: 'Error al obtener las órdenes' });
   }
 };
-
-<<<<<<< HEAD
 
 const createOrder = async (req, res) => {
   try {
@@ -67,6 +58,3 @@ const createOrder = async (req, res) => {
 };
 
 module.exports = { getMyOrders, createOrder };
-=======
-module.exports = { getMyOrders };
->>>>>>> 5ca3f5c94fa93eae54057201ae84b7f8bae98f6b
