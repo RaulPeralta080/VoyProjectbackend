@@ -5,21 +5,87 @@ const Event = require('./models/Event');
 dotenv.config();
 
 const eventosDePrueba = [
+  // ─── FLYERS REALES ────────────────────────────────────────────────────────
+  {
+    nombre: "New Direction — Danny Proyectil",
+    imagen: "/flyer-danny-proyectil.png",
+    generos: ["Post-Punk", "New Wave", "Alternativo"],
+    fecha: new Date("2026-01-30"),
+    hora: "22:00",
+    lugar: "Oskar — Virgen de la Merced 611",
+    descripcion: "Danny Proyectil presenta New Direction, su nuevo EP de post-punk y new wave grabado en vivo. Una noche de energía cruda y sonido sin filtros.",
+    precio: 3500,
+    artistas: [
+      { nombre: "Danny Proyectil", headliner: true },
+      { nombre: "Por Somos Humanos" },
+    ],
+    capacidadTotal: 80,
+    stock: 80,
+  },
+  {
+    nombre: "Debut — Las Cosas Inexplicables",
+    imagen: "/flyer-las-cosas-inexplicables.png",
+    generos: ["Noise Rock", "Alternativo", "Indie"],
+    fecha: new Date("2025-09-13"),
+    hora: "22:00",
+    lugar: "Oskar — Virgen de la Merced 611",
+    descripcion: "La noche de debut de Las Cosas Inexplicables junto a Lacrifagia. Dos bandas que llevan el under de Tucumán a su máxima expresión.",
+    precio: 2500,
+    artistas: [
+      { nombre: "Las Cosas Inexplicables", headliner: true },
+      { nombre: "Lacrifagia" },
+    ],
+    capacidadTotal: 70,
+    stock: 70,
+  },
+  {
+    nombre: "Sabbath Fest — Edición Tucumán",
+    imagen: "/flyer-sabbath-fest.png",
+    generos: ["Metal", "Stoner", "Doom", "Heavy Rock"],
+    fecha: new Date("2025-12-13"),
+    hora: "21:00",
+    lugar: "Casa Barrio — 9 de Julio 1032",
+    descripcion: "La primera edición del Sabbath Fest en Tucumán. Tres horas de riffs pesados, luces bajas y headbanging colectivo. No apto para oídos sensibles.",
+    precio: 5000,
+    artistas: [
+      { nombre: "Las Maldiciones" },
+      { nombre: "Danny Proyectil" },
+      { nombre: "Lacrifagia", headliner: true },
+    ],
+    capacidadTotal: 150,
+    stock: 150,
+  },
+  {
+    nombre: "Para Salir de la Oscuridad — Lacrifagia",
+    imagen: "/flyer-lacrifagia.png",
+    generos: ["Post-Hardcore", "Emo", "Screamo"],
+    fecha: new Date("2026-05-08"),
+    hora: "21:00",
+    lugar: "Bar Floresta — Av. Colón 471",
+    descripcion: "Lacrifagia presenta Para Salir de la Oscuridad, su nuevo material. Una noche íntima en el Bar Floresta con entradas limitadas.",
+    precio: 5000,
+    artistas: [
+      { nombre: "Lacrifagia", headliner: true },
+    ],
+    capacidadTotal: 50,
+    stock: 45,
+  },
   // ─── FESTIVAL GRATUITO ────────────────────────────────────────────────────
   {
     nombre: "Festival MAP — Edición Invierno",
     imagen: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
     generos: ["Indie", "Rock", "Folk"],
-    fecha: new Date("2026-07-09"), // feriado nacional
+    fecha: new Date("2026-07-09"),
     hora: "17:00",
     lugar: "Casa de la Cultura de Tucumán",
+    descripcion: "El festival MAP vuelve al invierno con una grilla de bandas locales que mezclan indie, rock y folk en el corazón de la ciudad.",
     precio: 0,
     artistas: [
       { nombre: "Maleza" },
       { nombre: "Estela de Mar" },
       { nombre: "Los del Patio" },
       { nombre: "Curda" },
-      { nombre: "Siesta de Agosto" }
+      { nombre: "Siesta de Agosto", headliner: true },
     ],
     capacidadTotal: 300,
     stock: 300,
@@ -32,11 +98,12 @@ const eventosDePrueba = [
     fecha: new Date("2026-06-07"),
     hora: "21:30",
     lugar: "La Gesta Cultural",
+    descripcion: "Un ciclo de música underground en La Gesta Cultural. Tres bandas de indie y shoegaze en un espacio íntimo y cultural.",
     precio: 1500,
     artistas: [
       { nombre: "Pez Espada" },
       { nombre: "Terrón" },
-      { nombre: "Costas" }
+      { nombre: "Costas", headliner: true },
     ],
     capacidadTotal: 60,
     stock: 45,
@@ -48,11 +115,12 @@ const eventosDePrueba = [
     fecha: new Date("2026-06-14"),
     hora: "22:00",
     lugar: "Bar El Garito",
+    descripcion: "El Garito enciende el sábado con una noche de punk y hardcore que va a dejar el lugar patas para arriba.",
     precio: 1000,
     artistas: [
       { nombre: "La Mugre" },
       { nombre: "Palco Roto" },
-      { nombre: "Código Rojo" }
+      { nombre: "Código Rojo", headliner: true },
     ],
     capacidadTotal: 40,
     stock: 8,
@@ -64,12 +132,13 @@ const eventosDePrueba = [
     fecha: new Date("2026-06-21"),
     hora: "20:00",
     lugar: "La Casona del Centro",
+    descripcion: "Ciclo Cultura Oqlta, la serie de eventos que transforma espacios en escenarios. Esta vez, el Patio Reconvertido es el protagonista.",
     precio: 2000,
     artistas: [
       { nombre: "Siesta de Agosto" },
       { nombre: "Viernes de Patio" },
       { nombre: "Corte Transversal" },
-      { nombre: "Maleza" }
+      { nombre: "Maleza", headliner: true },
     ],
     capacidadTotal: 80,
     stock: 80,
@@ -81,44 +150,30 @@ const eventosDePrueba = [
     fecha: new Date("2026-07-04"),
     hora: "21:00",
     lugar: "El Piletón",
+    descripcion: "El Piletón trae un finde de bandas de rock y grunge con todo el volumen y la energía del underground tucumano.",
     precio: 1500,
     artistas: [
       { nombre: "Tierra Cruda" },
-      { nombre: "Ruido Sagrado" }
+      { nombre: "Ruido Sagrado", headliner: true },
     ],
     capacidadTotal: 50,
-    stock: 0, // agotado — el clásico sold out de 50 personas
+    stock: 0,
   },
-  {
-    nombre: "Hardcore en Mithos — Tucumán HC",
-    imagen: "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?auto=format&fit=crop&w=1200&q=80",
-    generos: ["Hardcore", "Punk"],
-    fecha: new Date("2026-07-18"),
-    hora: "22:30",
-    lugar: "Mithos Bar",
-    precio: 800,
-    artistas: [
-      { nombre: "Palco Roto" },
-      { nombre: "La Mugre" }
-    ],
-    capacidadTotal: 30,
-    stock: 6, // últimas entradas
-  },
-  // ─── EVENTO FESTIVAL MÁS GRANDE ───────────────────────────────────────────
   {
     nombre: "Festival Emergente NOA",
     imagen: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80",
     generos: ["Indie", "Rock", "Folk", "Alternativo"],
-    fecha: new Date("2026-08-15"), // feriado
+    fecha: new Date("2026-08-15"),
     hora: "16:00",
     lugar: "Casa de la Cultura de Tucumán",
+    descripcion: "El festival más grande de música indie del NOA. Dos escenarios simultáneos, feria de fanzines, artistas plásticos en vivo y foodtrucks.",
     precio: 0,
     artistas: [
       { nombre: "Las Ligas Menores" },
       { nombre: "Viento de Norte" },
       { nombre: "Los Tripulantes" },
-      { nombre: "Mango de Hacha" },
-      { nombre: "Costas" }
+      { nombre: "Mango de Hacha", headliner: true },
+      { nombre: "Costas" },
     ],
     capacidadTotal: 250,
     stock: 250,

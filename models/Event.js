@@ -2,13 +2,14 @@ const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
   nombre:   { type: String, required: true },
-  imagen:   { type: String, default: '' },              // vacío por defecto, no dependemos de terceros
+  imagen:   { type: String, default: '' },
   generos:  [{ type: String }],
-  fecha:    { type: Date, required: true, index: true }, // índice para ordenar por fecha eficientemente
+  fecha:    { type: Date, required: true, index: true },
   hora:     { type: String, required: true },
   lugar:    { type: String, required: true },
   precio:   { type: Number, default: 0 },
-  artistas: [{ nombre: { type: String, required: true } }],
+  descripcion: { type: String, default: '' },
+  artistas: [{ nombre: { type: String, required: true }, headliner: { type: Boolean, default: false } }],
   stock:          { type: Number, default: 0 },
   capacidadTotal: { type: Number, default: 1 }
 }, {
