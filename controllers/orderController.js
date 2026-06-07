@@ -20,22 +20,29 @@ const createOrder = async (req, res) => {
   try {
     const { eventId, cantidad, datosComprador, subtotal, total } = req.body;
 
-    // 1. Validar que el evento exista
-    const evento = await Event.findById(eventId);
-    if (!evento) {
-      return res.status(404).json({ mensaje: 'Evento no encontrado' });
-    }
+    // 1. Validar stock y descontarlo en una sola operación atómica
+    //    Esto evita race conditions cuando dos usuarios compran al mismo tiempo.
+    const evento = await Event.findOneAndUpdate(
+      { _id: eventId, stock: { $gte: cantidad } },
+      { $inc: { stock: -cantidad } },
+      { new: true }
+    );
 
-    // 2. Validar que el stock sea suficiente
-    if (evento.stock < cantidad) {
+    if (!evento) {
+      // Diferenciar entre "evento no existe" y "stock insuficiente"
+      const exists = await Event.findById(eventId);
+      if (!exists) {
+        return res.status(404).json({ mensaje: 'Evento no encontrado' });
+      }
       return res.status(400).json({ mensaje: 'Stock insuficiente' });
     }
 
-    // 3. Generar el numero de orden (
-    const randomDigits = Math.floor(10000 + Math.random() * 90000);
-    const numeroOrden = `VOY-${randomDigits}`;
+    // 2. Generar número de orden con mayor rango para evitar colisiones
+    const timestamp = Date.now().toString(36).toUpperCase();
+    const random = Math.floor(1000 + Math.random() * 9000);
+    const numeroOrden = `VOY-${timestamp}-${random}`;
 
-    // 4. Crear y guardar la orden en la base de datos
+    // 3. Crear y guardar la orden en la base de datos
     const order = await Order.create({
       userId: req.user._id,
       eventId,
@@ -46,11 +53,7 @@ const createOrder = async (req, res) => {
       numeroOrden
     });
 
-    // 5. Descontar el stock del evento y guardar los cambios
-    evento.stock -= cantidad;
-    await evento.save();
-
-    // 6. Responder al frontend con la orden creada
+    // 4. Responder al frontend con la orden creada
     res.status(201).json(order);
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al crear la orden' });
