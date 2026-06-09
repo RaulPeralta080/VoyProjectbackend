@@ -23,24 +23,25 @@ const orderSchema = new mongoose.Schema({
     email:    { type: String, required: true },
     dni:      { type: String, required: true }
   },
-  subtotal: {
-    type: Number,
+  subtotal: { type: Number, required: true },
+  total: { type: Number, required: true },
+  numeroOrden: { type: String, required: true, unique: true },
+  
+  // ---CAMPOS MP---
+  estadoPago: {
+    type: String,
+    enum: ['PENDIENTE', 'PAGADA', 'RECHAZADA', 'EN_PROCESO'],
+    default: 'PENDIENTE'
+  },
+  metodoPago: {
+    type: String,
+    enum: ['mercadopago', 'transferencia', 'efectivo'],
     required: true
   },
-  total: {
-    type: Number,
-    required: true
-  },
-  numeroOrden: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  estado: {
-    type: String,
-    enum: ['PENDIENTE', 'CONFIRMADA'],
-    default: 'CONFIRMADA'
-  }
+  mpPreferenceId: { type: String },
+  mpPaymentId: { type: String }
+  // ------------------------
+
 }, {
   timestamps: true
 });

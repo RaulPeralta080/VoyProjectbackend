@@ -38,10 +38,13 @@ app.use(cors({
 
 app.use(express.json());
 
-app.use('/api/auth',   require('./routes/authRoutes'));
-app.use('/api/events', require('./routes/eventRoutes'));
-app.use('/api/orders', require('./routes/orderRoutes'));
+// --- DEFINICIÓN DE RUTAS ---
+app.use('/api/auth',     require('./routes/authRoutes'));
+app.use('/api/events',   require('./routes/eventRoutes'));
+app.use('/api/orders',   require('./routes/orderRoutes'));
+app.use('/api/payments', require('./routes/paymentRoutes')); // <-- Integración de Mercado Pago
 
+// --- MIDDLEWARES DE ERROR ---
 app.use(notFound);
 app.use(errorHandler);
 
