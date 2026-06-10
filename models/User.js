@@ -8,12 +8,34 @@ const userSchema = new mongoose.Schema({
   username: { type: String, unique: true, sparse: true, lowercase: true, trim: true },
   perfilPublico: { type: Boolean, default: true },
   seguidores: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  siguiendo: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+  siguiendo: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  avatar: { type: String },
+  bio: { type: String, maxlength: [280, 'La biografía no puede superar los 280 caracteres'] },
+  ubicacion: { type: String },
+  rol: { type: String, enum: ['usuario', 'artista', 'productor'], default: 'usuario' },
+  redesSociales: {
+    instagram: { type: String, trim: true },
+    spotify: { type: String, trim: true },
+    youtube: { type: String, trim: true },
+    web: { type: String, trim: true }
+  },
+  favoritos: [{ type: mongoose.Schema.Types.ObjectId }],
+  avatarColor: {
+    type: String,
+    validate: {
+      validator: function(v) {
+        return !v || /^#[0-9A-Fa-f]{6}$/.test(v);
+      },
+      message: props => `${props.value} no es un color hexadecimal válido`
+    }
+  },
+  bannerGradiente: { type: String },
+  vibeEnShows: [{ type: String }]
 }, { timestamps: true });
 
 // Encriptar password antes de guardar
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
+userSchema.pre('save', async function() {
+  if (!this.isModified('password')) return;
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Event = require('./models/Event');
+const User = require('./models/User');
 
 dotenv.config();
 
@@ -180,12 +181,80 @@ const eventosDePrueba = [
   },
 ];
 
+const usuariosDePrueba = [
+  {
+    nombre: 'Juan Perez',
+    email: 'juan@test.com',
+    password: 'password123',
+    username: 'juanperez',
+    avatar: '/avatars/juan.png',
+    bio: 'Melómano y seguidor de la escena under de Tucumán.',
+    ubicacion: 'San Miguel de Tucumán',
+    rol: 'usuario',
+    redesSociales: {
+      instagram: '@juanperez',
+      web: 'https://juan.dev'
+    },
+    avatarColor: '#FF5733',
+    bannerGradiente: 'sunset',
+    vibeEnShows: ['Tranqui', 'Pogo']
+  },
+  {
+    nombre: 'Danny Proyectil',
+    email: 'danny@test.com',
+    password: 'password123',
+    username: 'dannyproyectil',
+    avatar: '/avatars/danny.png',
+    bio: 'Post-punk de Tucumán. Presentando New Direction.',
+    ubicacion: 'Yerba Buena',
+    rol: 'artista',
+    redesSociales: {
+      instagram: '@dannyproyectil',
+      spotify: 'spotify:artist:danny',
+      youtube: 'https://youtube.com/danny'
+    },
+    avatarColor: '#33FF57',
+    bannerGradiente: 'neon',
+    vibeEnShows: ['Intenso', 'Oscuro']
+  },
+  {
+    nombre: 'Producciones Oskar',
+    email: 'oskar@test.com',
+    password: 'password123',
+    username: 'produccionesoskar',
+    avatar: '/avatars/oskar.png',
+    bio: 'Organizador de eventos underground y ciclos culturales.',
+    ubicacion: 'San Miguel de Tucumán',
+    rol: 'productor',
+    redesSociales: {
+      instagram: '@oskar_producciones',
+      web: 'https://oskar.club'
+    },
+    avatarColor: '#3357FF',
+    bannerGradiente: 'dark',
+    vibeEnShows: ['Organizado', 'Profesional']
+  }
+];
+
 const seedDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
     await Event.deleteMany({});
-    await Event.insertMany(eventosDePrueba);
-    console.log(`✓ ${eventosDePrueba.length} eventos under cargados con éxito`);
+    await User.deleteMany({});
+    
+    const seededEvents = await Event.insertMany(eventosDePrueba);
+    const seededUsers = await User.create(usuariosDePrueba);
+
+    seededUsers[0].siguiendo.push(seededUsers[1]._id);
+    seededUsers[1].seguidores.push(seededUsers[0]._id);
+    seededUsers[0].favoritos.push(seededEvents[0]._id);
+    seededUsers[0].favoritos.push(seededUsers[1]._id);
+
+    await seededUsers[0].save();
+    await seededUsers[1].save();
+
+    console.log(`✓ ${seededEvents.length} eventos under cargados con éxito`);
+    console.log(`✓ ${seededUsers.length} usuarios con perfiles completos cargados con éxito`);
     process.exit();
   } catch (err) {
     console.error(err);
