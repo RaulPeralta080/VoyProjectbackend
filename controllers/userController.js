@@ -122,9 +122,65 @@ const checkUsername = async (req, res) => {
   }
 };
 
+const followUser = async (req, res) => {
+  try {
+    const targetId = req.params.id;
+    const loggedUserId = req.user._id;
+
+    if (loggedUserId.toString() === targetId.toString()) {
+      return res.status(400).json({ mensaje: 'No puedes seguirte a ti mismo' });
+    }
+
+    const targetUser = await User.findById(targetId);
+    if (!targetUser) {
+      return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    }
+
+    if (targetUser.seguidores.includes(loggedUserId)) {
+      return res.status(400).json({ mensaje: 'Ya sigues a este usuario' });
+    }
+
+    await User.findByIdAndUpdate(loggedUserId, { $addToSet: { siguiendo: targetId } });
+    await User.findByIdAndUpdate(targetId, { $addToSet: { seguidores: loggedUserId } });
+
+    res.json({ mensaje: 'Usuario seguido correctamente' });
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al seguir al usuario' });
+  }
+};
+
+const unfollowUser = async (req, res) => {
+  try {
+    const targetId = req.params.id;
+    const loggedUserId = req.user._id;
+
+    if (loggedUserId.toString() === targetId.toString()) {
+      return res.status(400).json({ mensaje: 'No puedes dejar de seguirte a ti mismo' });
+    }
+
+    const targetUser = await User.findById(targetId);
+    if (!targetUser) {
+      return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    }
+
+    if (!targetUser.seguidores.includes(loggedUserId)) {
+      return res.status(400).json({ mensaje: 'No sigues a este usuario' });
+    }
+
+    await User.findByIdAndUpdate(loggedUserId, { $pull: { siguiendo: targetId } });
+    await User.findByIdAndUpdate(targetId, { $pull: { seguidores: loggedUserId } });
+
+    res.json({ mensaje: 'Usuario dejado de seguir correctamente' });
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al dejar de seguir al usuario' });
+  }
+};
+
 module.exports = {
   getUserProfile,
   updateUserProfile,
   getPublicProfile,
-  checkUsername
+  checkUsername,
+  followUser,
+  unfollowUser
 };
