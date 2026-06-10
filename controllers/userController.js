@@ -72,8 +72,15 @@ const updateUserProfile = async (req, res) => {
 
 const getPublicProfile = async (req, res) => {
   try {
-    const username = req.params.username.trim().toLowerCase();
-    const user = await User.findOne({ username });
+    const param = req.params.username.trim().toLowerCase();
+    
+    let query = { username: param };
+    const mongoose = require('mongoose');
+    if (mongoose.Types.ObjectId.isValid(param)) {
+      query = { $or: [{ _id: param }, { username: param }] };
+    }
+
+    const user = await User.findOne(query);
 
     if (!user) {
       return res.status(404).json({ mensaje: 'Usuario no encontrado' });
