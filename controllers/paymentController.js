@@ -37,7 +37,13 @@ const createPreference = async (req, res) => {
         },
         external_reference: orderId.toString(),
         // NGROK_URL vendrá de tu .env cuando lo pruebes localmente
-        notification_url: process.env.NGROK_URL ? `${process.env.NGROK_URL}/api/payments/webhook` : undefined
+        notification_url: process.env.NGROK_URL ? `${process.env.NGROK_URL}/api/payments/webhook` : undefined,
+        back_urls: {
+          success: process.env.FRONTEND_URL ? `${process.env.FRONTEND_URL}/compra/confirmacion` : 'http://localhost:5173/compra/confirmacion',
+          failure: process.env.FRONTEND_URL ? `${process.env.FRONTEND_URL}/` : 'http://localhost:5173/',
+          pending: process.env.FRONTEND_URL ? `${process.env.FRONTEND_URL}/` : 'http://localhost:5173/',
+        },
+        ...(process.env.FRONTEND_URL && { auto_return: 'approved' })
       }
     });
 
