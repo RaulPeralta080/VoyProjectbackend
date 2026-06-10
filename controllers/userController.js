@@ -26,6 +26,7 @@ const updateUserProfile = async (req, res) => {
       'favoritos',
       'avatarColor',
       'bannerGradiente',
+      'generosMusicales',
       'vibeEnShows'
     ];
     const updates = {};
@@ -33,18 +34,26 @@ const updateUserProfile = async (req, res) => {
     for (const key of Object.keys(req.body)) {
       if (whitelist.includes(key)) {
         if (key === 'username') {
-          const cleanedUsername = req.body.username.trim().toLowerCase();
-          
-          if (!/^[a-zA-Z0-9._]+$/.test(cleanedUsername)) {
-            return res.status(400).json({ mensaje: 'Nombre de usuario inválido. Solo letras, números, puntos y guión bajo.' });
-          }
+          const rawUsername = req.body.username;
+          if (rawUsername === undefined || rawUsername === null || rawUsername.trim() === '') {
+            if (req.user.username) {
+              return res.status(400).json({ mensaje: 'El nombre de usuario es obligatorio.' });
+            }
+            // Si no tiene, no lo agregamos a updates para evitar guardar "" y causar conflicto de índice único
+          } else {
+            const cleanedUsername = rawUsername.trim().toLowerCase();
+            
+            if (!/^[a-zA-Z0-9._]+$/.test(cleanedUsername)) {
+              return res.status(400).json({ mensaje: 'Nombre de usuario inválido. Solo letras, números, puntos y guión bajo.' });
+            }
 
-          const existingUser = await User.findOne({ username: cleanedUsername });
-          if (existingUser && existingUser._id.toString() !== req.user._id.toString()) {
-            return res.status(400).json({ mensaje: 'El nombre de usuario ya está en uso' });
+            const existingUser = await User.findOne({ username: cleanedUsername });
+            if (existingUser && existingUser._id.toString() !== req.user._id.toString()) {
+              return res.status(400).json({ mensaje: 'El nombre de usuario ya está en uso' });
+            }
+            
+            updates[key] = cleanedUsername;
           }
-          
-          updates[key] = cleanedUsername;
         } else {
           updates[key] = req.body[key];
         }
@@ -66,7 +75,7 @@ const updateUserProfile = async (req, res) => {
     if (error.code === 11000) {
       return res.status(400).json({ mensaje: 'El nombre de usuario ya está en uso' });
     }
-    res.status(500).json({ mensaje: 'Error al actualizar el perfil' });
+    res.status(500).json({ mensaje: 'Error al actualizar el perfil', error: error.message, stack: error.stack });
   }
 };
 
