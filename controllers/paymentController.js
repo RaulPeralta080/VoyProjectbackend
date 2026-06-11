@@ -34,11 +34,9 @@ const createPreference = async (req, res) => {
             currency_id: 'ARS',
           }
         ],
-        payer: {
-          name: datosComprador?.nombre || 'Usuario',
-          surname: datosComprador?.apellido || 'Prueba',
-          email: 'test_user_bypass@testuser.com' // Dummy para evitar bloqueo antifraude de autocompra
-        },
+        // Eliminamos el objeto "payer" por completo. 
+        // Dejar que MercadoPago le pida el mail al usuario en su propia pantalla
+        // evita el 100% de los bloqueos de "autocompra" y problemas de credenciales.
         external_reference: orderId.toString(),
         back_urls: {
           success: `${baseUrl}/compra/confirmacion`,
@@ -67,9 +65,11 @@ const createPreference = async (req, res) => {
       mpPreferenceId: result.id
     });
 
+    // Siempre usamos init_point. sandbox_init_point está deprecado y causa ERR_TOO_MANY_REDIRECTS.
+    // MercadoPago detecta automáticamente si el Token es de prueba y adapta el init_point.
     res.status(200).json({
       preferenceId: result.id,
-      initPoint: result.sandbox_init_point || result.init_point
+      initPoint: result.init_point
     });
 
   } catch (error) {
