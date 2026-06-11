@@ -18,6 +18,10 @@ const createPreference = async (req, res) => {
     // Generamos el ID de la orden ANTES para mandarlo a MP como external_reference
     const orderId = new mongoose.Types.ObjectId();
 
+    const baseUrl = (process.env.FRONTEND_URL && process.env.FRONTEND_URL.trim() !== '') 
+      ? process.env.FRONTEND_URL.replace(/\/$/, '') 
+      : 'http://localhost:5173';
+
     const preference = new Preference(client);
     const result = await preference.create({
       body: {
@@ -36,14 +40,12 @@ const createPreference = async (req, res) => {
           email: datosComprador.email
         },
         external_reference: orderId.toString(),
-        // NGROK_URL vendrá de tu .env cuando lo pruebes localmente
-        notification_url: process.env.NGROK_URL ? `${process.env.NGROK_URL}/api/payments/webhook` : undefined,
         back_urls: {
-          success: process.env.FRONTEND_URL ? `${process.env.FRONTEND_URL}/compra/confirmacion` : 'http://localhost:5173/compra/confirmacion',
-          failure: process.env.FRONTEND_URL ? `${process.env.FRONTEND_URL}/` : 'http://localhost:5173/',
-          pending: process.env.FRONTEND_URL ? `${process.env.FRONTEND_URL}/` : 'http://localhost:5173/',
+          success: `${baseUrl}/compra/confirmacion`,
+          failure: `${baseUrl}/`,
+          pending: `${baseUrl}/`
         },
-        ...(process.env.FRONTEND_URL && { auto_return: 'approved' })
+        ...(baseUrl.includes('localhost') ? {} : { auto_return: 'approved' })
       }
     });
 
@@ -72,7 +74,10 @@ const createPreference = async (req, res) => {
 
   } catch (error) {
     console.error('Error en createPreference:', error);
-    res.status(500).json({ mensaje: 'Error al generar preferencia de pago' });
+    res.status(500).json({ 
+      mensaje: 'Error al generar preferencia de pago',
+      detalle: error.message || error.cause || JSON.stringify(error)
+    });
   }
 };
 
@@ -82,14 +87,22 @@ const receiveWebhook = async (req, res) => {
   // 1. Criterio de aceptación: Responder 200 OK inmediatamente a MP
   res.status(200).send('OK');
 
-  try {
-    const { type, data } = req.body;
+  console.log('--- WEBHOOK RECIBIDO DE MERCADOPAGO ---');
+  console.log('Body:', JSON.stringify(req.body, null, 2));
+  console.log('Query:', JSON.stringify(req.query, null, 2));
 
-    // 2. Solo procesamos si el tipo de notificación es un pago
-    if (type === 'payment') {
+  try {
+    const { type, data, action } = req.body;
+
+    // 2. Procesamos si es 'payment' o si la query dice topic=payment
+    if (type === 'payment' || action?.startsWith('payment') || req.query.topic === 'payment') {
+      const paymentId = data?.id || req.query.id;
+      if (!paymentId) return;
+
+      console.log('Consultando estado del pago ID:', paymentId);
       // Consultar el estado real del pago con el SDK
       const payment = new Payment(client);
-      const paymentInfo = await payment.get({ id: data.id });
+      const paymentInfo = await payment.get({ id: paymentId });
 
       const { status, external_reference } = paymentInfo;
 
