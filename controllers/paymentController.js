@@ -18,8 +18,8 @@ const createPreference = async (req, res) => {
     // Generamos el ID de la orden ANTES para mandarlo a MP como external_reference
     const orderId = new mongoose.Types.ObjectId();
 
-    const baseUrl = (process.env.FRONTEND_URL && process.env.FRONTEND_URL.trim() !== '') 
-      ? process.env.FRONTEND_URL.replace(/\/$/, '') 
+    const baseUrl = (process.env.FRONTEND_URL && process.env.FRONTEND_URL.trim() !== '')
+      ? process.env.FRONTEND_URL.replace(/\/$/, '')
       : 'http://localhost:5173';
 
     const preference = new Preference(client);
@@ -74,7 +74,7 @@ const createPreference = async (req, res) => {
 
   } catch (error) {
     console.error('Error en createPreference:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       mensaje: 'Error al generar preferencia de pago',
       detalle: error.message || error.cause || JSON.stringify(error)
     });
@@ -97,7 +97,7 @@ const receiveWebhook = async (req, res) => {
     // 2. Procesamos si es 'payment' o si la query dice topic=payment
     if (type === 'payment' || action?.startsWith('payment') || req.query.topic === 'payment' || req.body.resource) {
       let paymentId = data?.id || req.query.id || req.body.id;
-      
+
       // MP a veces manda la info en el campo "resource" (ej: "/v1/payments/123456")
       if (!paymentId && req.body.resource) {
         paymentId = req.body.resource.split('/').pop();
