@@ -83,4 +83,83 @@ const getEventById = async (req, res) => {
   }
 };
 
-module.exports = { getEvents, getEventById };
+// @desc    Crear un nuevo evento
+// @route   POST /api/events
+const createEvent = async (req, res) => {
+  try {
+    const { nombre, imagen, generos, fecha, hora, lugar, precio, descripcion, artistas, stock, capacidadTotal } = req.body;
+    
+    if (!nombre || !fecha || !hora || !lugar) {
+      return res.status(400).json({ 
+        mensaje: 'Por favor, complete todos los campos obligatorios (nombre, fecha, hora, lugar)' 
+      });
+    }
+
+    const nuevoEvento = await Event.create({
+      nombre,
+      imagen,
+      generos,
+      fecha,
+      hora,
+      lugar,
+      precio,
+      descripcion,
+      artistas,
+      stock: stock !== undefined ? stock : capacidadTotal,
+      capacidadTotal
+    });
+
+    res.status(201).json(nuevoEvento);
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al crear el evento', error: error.message });
+  }
+};
+
+// @desc    Actualizar un evento por ID
+// @route   PUT /api/events/:id
+const updateEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ mensaje: 'ID de evento inválido' });
+    }
+
+    const eventoActualizado = await Event.findByIdAndUpdate(id, req.body, { 
+      new: true, 
+      runValidators: true 
+    });
+
+    if (!eventoActualizado) {
+      return res.status(404).json({ mensaje: 'Evento no encontrado' });
+    }
+
+    res.status(200).json(eventoActualizado);
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al actualizar el evento', error: error.message });
+  }
+};
+
+// @desc    Eliminar un evento por ID
+// @route   DELETE /api/events/:id
+const deleteEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ mensaje: 'ID de evento inválido' });
+    }
+
+    const eventoEliminado = await Event.findByIdAndDelete(id);
+
+    if (!eventoEliminado) {
+      return res.status(404).json({ mensaje: 'Evento no encontrado' });
+    }
+
+    res.status(200).json({ mensaje: 'Evento eliminado correctamente' });
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al eliminar el evento', error: error.message });
+  }
+};
+
+module.exports = { getEvents, getEventById, createEvent, updateEvent, deleteEvent };
