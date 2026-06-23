@@ -1,8 +1,20 @@
 const express = require('express');
-const router  = express.Router();
-const { getEvents, getEventById } = require('../controllers/eventController');
+const router = express.Router();
+const upload = require('../middlewares/uploadMiddleware'); // Tu config de Cloudinary
+const { protect, verifiedProducer } = require('../middlewares/authMiddleware');
+const { 
+  getMyEvents, createEvent, updateEvent, 
+  pauseEvent, cancelEvent, deleteEvent 
+} = require('../controllers/eventController');
 
-router.get('/',    getEvents);     // GET /api/events
-router.get('/:id', getEventById); // GET /api/events/:id
+// Rutas protegidas para el productor (Requiere login y estar verificado)
+router.use(protect, verifiedProducer);
+
+router.get('/producer/my-events', getMyEvents);
+router.post('/', upload.single('imagen'), createEvent); // Intercepta archivo
+router.put('/:id', updateEvent);
+router.patch('/:id/pause', pauseEvent);
+router.patch('/:id/cancel', cancelEvent);
+router.delete('/:id', deleteEvent);
 
 module.exports = router;
