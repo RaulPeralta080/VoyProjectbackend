@@ -17,4 +17,9 @@ router.patch('/:id/pause', pauseEvent);
 router.patch('/:id/cancel', cancelEvent);
 router.delete('/:id', deleteEvent);
 
+// Rutas protegidas de escritura de eventos (solo productores y administradores)
+router.post('/',     authorizeRoles('producer', 'admin'), createEvent);
+router.put('/:id',    authorizeRoles('producer', 'admin'), updateEvent);
+router.delete('/:id', authorizeRoles('producer', 'admin'), deleteEvent);
+
 module.exports = router;

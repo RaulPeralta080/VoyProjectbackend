@@ -191,6 +191,7 @@ const usuariosDePrueba = [
     bio: 'Melómano y seguidor de la escena under de Tucumán.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'usuario',
+    role: 'client',
     redesSociales: {
       instagram: '@juanperez',
       web: 'https://juan.dev'
@@ -208,6 +209,7 @@ const usuariosDePrueba = [
     bio: 'Post-punk de Tucumán. Presentando New Direction.',
     ubicacion: 'Yerba Buena',
     rol: 'artista',
+    role: 'client',
     redesSociales: {
       instagram: '@dannyproyectil',
       spotify: 'spotify:artist:danny',
@@ -226,6 +228,8 @@ const usuariosDePrueba = [
     bio: 'Organizador de eventos underground y ciclos culturales.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'productor',
+    role: 'producer',
+    isVerifiedProducer: true,
     redesSociales: {
       instagram: '@oskar_producciones',
       web: 'https://oskar.club'
@@ -233,6 +237,29 @@ const usuariosDePrueba = [
     avatarColor: '#3357FF',
     bannerGradiente: 'dark',
     vibeEnShows: ['Organizado', 'Profesional']
+  },
+  {
+    nombre: 'Admin General',
+    email: 'admin@test.com',
+    password: 'password123',
+    username: 'admin',
+    avatar: '/avatars/admin.png',
+    bio: 'Administrador de la plataforma.',
+    ubicacion: 'San Miguel de Tucumán',
+    rol: 'usuario',
+    role: 'admin',
+    avatarColor: '#E60000',
+    bannerGradiente: 'dark'
+  },
+  {
+    nombre: 'Usuario Suspendido',
+    email: 'suspended@test.com',
+    password: 'password123',
+    username: 'suspended',
+    rol: 'usuario',
+    role: 'client',
+    isSuspended: true,
+    avatarColor: '#AAAAAA'
   }
 ];
 
