@@ -5,7 +5,7 @@ const Event = require('../models/Event');
 // @route   GET /api/events
 const getEvents = async (req, res) => {
   try {
-    const { genero, lugar, fecha, limit } = req.query;
+    const { genero, lugar, fecha, limit, artist } = req.query;
     let filter = {};
 
     // 1. Filtro por Género
@@ -17,6 +17,11 @@ const getEvents = async (req, res) => {
     // 2. Filtro por Lugar
     if (lugar) {
       filter.lugar = new RegExp(lugar, 'i');
+    }
+
+    // Filtro por Artista (búsqueda parcial sobre el array de artistas)
+    if (artist) {
+      filter['artistas.nombre'] = new RegExp(artist, 'i');
     }
 
     // 3. Filtro por Fecha

