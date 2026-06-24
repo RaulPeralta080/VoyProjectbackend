@@ -22,6 +22,7 @@ const eventosDePrueba = [
     ],
     capacidadTotal: 80,
     stock: 80,
+    location: { type: "Point", coordinates: [-65.2215, -26.8241] }
   },
   {
     nombre: "Debut — Las Cosas Inexplicables",
@@ -55,6 +56,7 @@ const eventosDePrueba = [
     ],
     capacidadTotal: 150,
     stock: 150,
+    location: { type: "Point", coordinates: [-65.2235, -26.8271] }
   },
   {
     nombre: "Para Salir de la Oscuridad — Lacrifagia",
@@ -70,6 +72,7 @@ const eventosDePrueba = [
     ],
     capacidadTotal: 50,
     stock: 45,
+    location: { type: "Point", coordinates: [-65.2155, -26.8291] }
   },
   // ─── FESTIVAL GRATUITO ────────────────────────────────────────────────────
   {
@@ -179,6 +182,22 @@ const eventosDePrueba = [
     capacidadTotal: 250,
     stock: 250,
   },
+  {
+    nombre: "Cumbia under — Los Palmeras en vivo",
+    imagen: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80",
+    generos: ["Cumbia", "Tropical"],
+    fecha: new Date("2026-09-20"),
+    hora: "23:00",
+    lugar: "Estadio Central",
+    descripcion: "La noche más esperada del año con la cumbia santafesina de Los Palmeras.",
+    precio: 8000,
+    artistas: [
+      { nombre: "Los Palmeras", headliner: true }
+    ],
+    capacidadTotal: 500,
+    stock: 500,
+    location: { type: "Point", coordinates: [-65.2175, -26.8321] }
+  }
 ];
 
 const usuariosDePrueba = [

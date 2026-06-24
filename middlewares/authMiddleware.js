@@ -23,4 +23,18 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = { protect };
+const verifiedProducer = (req, res, next) => {
+  if (req.user && req.user.rol === 'productor') {
+    return next();
+  }
+  return res.status(403).json({ mensaje: 'Acceso denegado, se requiere rol de productor' });
+};
+
+const admin = (req, res, next) => {
+  if (req.user && req.user.rol === 'admin') {
+    return next();
+  }
+  return res.status(403).json({ mensaje: 'Acceso denegado, se requiere rol de administrador' });
+};
+
+module.exports = { protect, verifiedProducer, admin };

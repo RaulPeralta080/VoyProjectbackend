@@ -11,12 +11,24 @@ const eventSchema = new mongoose.Schema({
   descripcion: { type: String, default: '' },
   artistas: [{ nombre: { type: String, required: true }, headliner: { type: Boolean, default: false } }],
   stock:          { type: Number, default: 0 },
-  capacidadTotal: { type: Number, default: 1 }
+  capacidadTotal: { type: Number, default: 1 },
+  location: {
+    type: {
+      type: String,
+      enum: ['Point']
+    },
+    coordinates: {
+      type: [Number]
+    }
+  }
 }, {
   timestamps: true,
   toJSON:   { virtuals: true },  // necesario para que 'estado' llegue al frontend
   toObject: { virtuals: true }
 });
+
+// Índice para consultas geoespaciales (GeoJSON)
+eventSchema.index({ location: '2dsphere' });
 
 // Virtual: calcula el estado de disponibilidad sin guardarlo en la DB
 eventSchema.virtual('estado').get(function() {
