@@ -22,7 +22,8 @@ const registerUser = async (req, res) => {
       _id: user._id,
       nombre: user.nombre,
       email: user.email,
-      token: generateToken(user._id)
+      role: user.role,
+      token: generateToken(user._id, user.role)
     });
   } catch (error) {
     res.status(500).json({ mensaje: 'Error interno del servidor' });
@@ -45,11 +46,16 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ mensaje: 'Email o contraseña incorrectos' });
     }
 
+    if (user.isSuspended) {
+      return res.status(403).json({ mensaje: 'Su cuenta ha sido suspendida. Contacte al administrador.' });
+    }
+
     res.json({
       _id: user._id,
       nombre: user.nombre,
       email: user.email,
-      token: generateToken(user._id)
+      role: user.role,
+      token: generateToken(user._id, user.role)
     });
   } catch (error) {
     res.status(500).json({ mensaje: 'Error interno del servidor' });
