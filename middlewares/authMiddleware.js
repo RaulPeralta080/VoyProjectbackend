@@ -23,6 +23,20 @@ const protect = async (req, res, next) => {
   }
 };
 
+const verifiedProducer = (req, res, next) => {
+  if (req.user && req.user.rol === 'productor') {
+    return next();
+  }
+  return res.status(403).json({ mensaje: 'Acceso denegado, se requiere rol de productor' });
+};
+
+const admin = (req, res, next) => {
+  if (req.user && req.user.rol === 'admin') {
+    return next();
+  }
+  return res.status(403).json({ mensaje: 'Acceso denegado, se requiere rol de administrador' });
+};
+
 const authorizeRoles = (...roles) => {
   return async (req, res, next) => {
     // Si req.user aún no está definido, intentamos autenticar con el token
@@ -57,4 +71,4 @@ const authorizeRoles = (...roles) => {
   };
 };
 
-module.exports = { protect, authorizeRoles };
+module.exports = { protect, verifiedProducer, admin, authorizeRoles };
