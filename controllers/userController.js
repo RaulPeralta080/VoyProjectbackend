@@ -21,7 +21,6 @@ const updateUserProfile = async (req, res) => {
       'avatar',
       'bio',
       'ubicacion',
-      'role',
       'redesSociales',
       'favoritos',
       'avatarColor',
