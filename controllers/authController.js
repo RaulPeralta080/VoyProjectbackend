@@ -32,6 +32,7 @@ const registerUser = async (req, res) => {
       nombre: user.nombre,
       email: user.email,
       role: user.role,
+      isPendingApproval: user.isPendingApproval,
       token: generateToken(user._id, user.role)
     });
   } catch (error) {
@@ -79,6 +80,7 @@ const loginUser = async (req, res) => {
       nombre: user.nombre,
       email: user.email,
       role: user.role,
+      isPendingApproval: user.isPendingApproval,
       token: generateToken(user._id, user.role)
     });
   } catch (error) {
@@ -127,6 +129,7 @@ const googleLogin = async (req, res) => {
       email: user.email,
       role: user.role,
       avatar: user.avatar,
+      isPendingApproval: user.isPendingApproval,
       token: generateToken(user._id, user.role)
     });
 

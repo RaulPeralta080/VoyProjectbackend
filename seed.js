@@ -269,8 +269,15 @@ const seedDB = async () => {
     await Event.deleteMany({});
     await User.deleteMany({});
     
-    const seededEvents = await Event.insertMany(eventosDePrueba);
     const seededUsers = await User.create(usuariosDePrueba);
+    const oskarProducer = seededUsers.find(u => u.username === 'produccionesoskar') || seededUsers[0];
+    
+    const eventosConCreador = eventosDePrueba.map(evento => ({
+      ...evento,
+      creador: oskarProducer._id
+    }));
+    
+    const seededEvents = await Event.insertMany(eventosConCreador);
 
     seededUsers[0].siguiendo.push(seededUsers[1]._id);
     seededUsers[1].seguidores.push(seededUsers[0]._id);

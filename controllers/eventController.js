@@ -89,10 +89,10 @@ const createEvent = async (req, res) => {
   try {
     const body = req.body;
     
-    // Parsear location y artistas que vienen como string desde el form
-    const coordinates = body.coordinates ? JSON.parse(body.coordinates) : [0, 0];
-    const artistas = body.artistas ? JSON.parse(body.artistas) : [];
-    const generos = body.generos ? JSON.parse(body.generos) : [];
+    // Parsear location y artistas que vienen como string desde el form (o ya como arrays si es JSON)
+    const coordinates = typeof body.coordinates === 'string' ? JSON.parse(body.coordinates) : (body.coordinates || [0, 0]);
+    const artistas = typeof body.artistas === 'string' ? JSON.parse(body.artistas) : (body.artistas || []);
+    const generos = typeof body.generos === 'string' ? JSON.parse(body.generos) : (body.generos || []);
 
     const nuevoEvento = await Event.create({
       ...body,

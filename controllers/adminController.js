@@ -14,10 +14,17 @@ const getUsers = async (req, res) => {
 
 const updateUserStatus = async (req, res) => {
   try {
-    const { role, isSuspended, isVerifiedProducer } = req.body;
+    const { role, isSuspended, isVerifiedProducer, isPendingApproval } = req.body;
+    
+    const updateFields = {};
+    if (role !== undefined) updateFields.role = role;
+    if (isSuspended !== undefined) updateFields.isSuspended = isSuspended;
+    if (isVerifiedProducer !== undefined) updateFields.isVerifiedProducer = isVerifiedProducer;
+    if (isPendingApproval !== undefined) updateFields.isPendingApproval = isPendingApproval;
+
     const user = await User.findByIdAndUpdate(
       req.params.id,
-      { role, isSuspended, isVerifiedProducer },
+      updateFields,
       { new: true }
     ).select('-password');
     

@@ -54,4 +54,5 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`\x1b[32m✓ Servidor corriendo en puerto ${PORT}\x1b[0m`);
-}); 
+});
+// Trigger reload
