@@ -1,21 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { authorizeRoles } = require('../middlewares/authMiddleware');
+const { getUsers, updateUserStatus, getMetrics, toggleFeatureEvent, deleteEventAdmin } = require('../controllers/adminController');
+const { protect, admin } = require('../middlewares/authMiddleware');
 
-// Aplicamos el middleware a todas las rutas de administración
-router.use(authorizeRoles('admin'));
+// Todas las rutas requieren login (protect) y ser admin (admin)
+router.use(protect, admin);
 
-// GET /api/admin/dashboard
-router.get('/dashboard', (req, res) => {
-  res.status(200).json({ 
-    mensaje: 'Acceso concedido al panel de administración', 
-    user: {
-      _id: req.user._id,
-      nombre: req.user.nombre,
-      email: req.user.email,
-      role: req.user.role
-    }
-  });
-});
+router.get('/users', getUsers);
+router.put('/users/:id', updateUserStatus);
+router.get('/metrics', getMetrics);
+router.put('/events/:id/feature', toggleFeatureEvent);
+router.delete('/events/:id', deleteEventAdmin);
 
 module.exports = router;

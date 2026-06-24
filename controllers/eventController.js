@@ -1,165 +1,89 @@
-const { Types: { ObjectId } } = require('mongoose');
 const Event = require('../models/Event');
 
-// @desc    Obtener lista de eventos con filtros opcionales
-// @route   GET /api/events
-const getEvents = async (req, res) => {
+const getMyEvents = async (req, res) => {
   try {
-    const { genero, lugar, fecha, limit } = req.query;
-    let filter = {};
-
-    // 1. Filtro por Género (acepta múltiples separados por coma)
-    if (genero) {
-      const generosArray = genero.split(',').map(g => g.trim());
-      // Búsqueda case-insensitive para cada género
-      filter.generos = { $in: generosArray.map(g => new RegExp(`^${g}$`, 'i')) };
-    }
-
-    // 2. Filtro por Lugar
-    if (lugar) {
-      filter.lugar = new RegExp(lugar, 'i');
-    }
-
-    // 3. Filtro por Fecha
-    if (fecha) {
-      const parsedDate = new Date(fecha);
-      if (isNaN(parsedDate.getTime())) {
-        return res.status(400).json({ 
-          mensaje: 'El parámetro de fecha proporcionado es inválido. Use formato YYYY-MM-DD.' 
-        });
-      }
-      
-      const startOfDay = new Date(fecha);
-      startOfDay.setUTCHours(0, 0, 0, 0);
-      
-      const endOfDay = new Date(fecha);
-      endOfDay.setUTCHours(23, 59, 59, 999);
-
-      filter.fecha = { $gte: startOfDay, $lte: endOfDay };
-    }
-
-    // Obtenemos los eventos ordenados por fecha ascendente y aplicamos el filtro
-    let query = Event.find(filter).sort({ fecha: 1 });
-
-    // Si se pasa ?limit=N, limitamos los resultados (útil para la landing preview)
-    const parsedLimit = parseInt(limit);
-    if (!isNaN(parsedLimit) && parsedLimit > 0) {
-      query = query.limit(parsedLimit);
-    }
-
-    const eventos = await query;
-
-    res.status(200).json(eventos);
+    const events = await Event.find({ creador: req.user._id });
+    res.json(events);
   } catch (error) {
-    res.status(500).json({ mensaje: 'Error al obtener los eventos' });
+    res.status(500).json({ mensaje: 'Error al obtener tus eventos' });
   }
 };
 
-// @desc    Obtener detalle de un evento por ID
-// @route   GET /api/events/:id
-const getEventById = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    // Validar si el ID es un ObjectId de MongoDB válido (CRÍTICO)
-    if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ 
-        mensaje: 'ID de evento inválido' 
-      });
-    }
-
-    const evento = await Event.findById(id);
-
-    // Si el ID es válido pero no existe el evento
-    if (!evento) {
-      return res.status(404).json({ 
-        mensaje: 'Evento no encontrado' 
-      });
-    }
-
-    res.status(200).json(evento);
-  } catch (error) {
-    res.status(500).json({ mensaje: 'Error al obtener el detalle del evento' });
-  }
-};
-
-// @desc    Crear un nuevo evento
-// @route   POST /api/events
 const createEvent = async (req, res) => {
   try {
-    const { nombre, imagen, generos, fecha, hora, lugar, precio, descripcion, artistas, stock, capacidadTotal } = req.body;
+    const body = req.body;
     
-    if (!nombre || !fecha || !hora || !lugar) {
-      return res.status(400).json({ 
-        mensaje: 'Por favor, complete todos los campos obligatorios (nombre, fecha, hora, lugar)' 
-      });
-    }
+    // Parsear location y artistas que vienen como string desde el form
+    const coordinates = body.coordinates ? JSON.parse(body.coordinates) : [0, 0];
+    const artistas = body.artistas ? JSON.parse(body.artistas) : [];
+    const generos = body.generos ? JSON.parse(body.generos) : [];
 
     const nuevoEvento = await Event.create({
-      nombre,
-      imagen,
-      generos,
-      fecha,
-      hora,
-      lugar,
-      precio,
-      descripcion,
+      ...body,
+      creador: req.user._id,
+      location: { type: 'Point', coordinates },
       artistas,
-      stock: stock !== undefined ? stock : capacidadTotal,
-      capacidadTotal
+      generos,
+      imagen: req.file ? req.file.path : '' // URL de Cloudinary
     });
 
     res.status(201).json(nuevoEvento);
   } catch (error) {
-    res.status(500).json({ mensaje: 'Error al crear el evento', error: error.message });
+    res.status(400).json({ mensaje: 'Error al crear evento', error: error.message });
   }
 };
 
-// @desc    Actualizar un evento por ID
-// @route   PUT /api/events/:id
 const updateEvent = async (req, res) => {
   try {
-    const { id } = req.params;
+    let event = await Event.findById(req.params.id);
+    if (!event) return res.status(404).json({ mensaje: 'Evento no encontrado' });
 
-    if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ mensaje: 'ID de evento inválido' });
+    // Validación de autoría estricta
+    if (event.creador.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ mensaje: 'No tienes permiso para editar este evento' });
     }
 
-    const eventoActualizado = await Event.findByIdAndUpdate(id, req.body, { 
-      new: true, 
-      runValidators: true 
-    });
-
-    if (!eventoActualizado) {
-      return res.status(404).json({ mensaje: 'Evento no encontrado' });
-    }
-
-    res.status(200).json(eventoActualizado);
+    event = await Event.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(event);
   } catch (error) {
-    res.status(500).json({ mensaje: 'Error al actualizar el evento', error: error.message });
+    res.status(400).json({ mensaje: 'Error al actualizar evento' });
   }
 };
 
-// @desc    Eliminar un evento por ID
-// @route   DELETE /api/events/:id
+const changeEventStatus = async (req, res, status) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) return res.status(404).json({ mensaje: 'Evento no encontrado' });
+
+    if (event.creador.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ mensaje: 'No tienes permiso para modificar este evento' });
+    }
+
+    event.estadoPublicacion = status;
+    await event.save();
+    res.json({ mensaje: `Evento ${status.toLowerCase()}` });
+  } catch (error) {
+    res.status(400).json({ mensaje: 'Error al cambiar estado' });
+  }
+};
+
+const pauseEvent = (req, res) => changeEventStatus(req, res, 'PAUSADO');
+const cancelEvent = (req, res) => changeEventStatus(req, res, 'CANCELADO');
+
 const deleteEvent = async (req, res) => {
   try {
-    const { id } = req.params;
+    const event = await Event.findById(req.params.id);
+    if (!event) return res.status(404).json({ mensaje: 'Evento no encontrado' });
 
-    if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ mensaje: 'ID de evento inválido' });
+    if (event.creador.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ mensaje: 'No tienes permiso para eliminar este evento' });
     }
 
-    const eventoEliminado = await Event.findByIdAndDelete(id);
-
-    if (!eventoEliminado) {
-      return res.status(404).json({ mensaje: 'Evento no encontrado' });
-    }
-
-    res.status(200).json({ mensaje: 'Evento eliminado correctamente' });
+    await event.deleteOne();
+    res.json({ mensaje: 'Evento eliminado' });
   } catch (error) {
-    res.status(500).json({ mensaje: 'Error al eliminar el evento', error: error.message });
+    res.status(500).json({ mensaje: 'Error al eliminar evento' });
   }
 };
 
-module.exports = { getEvents, getEventById, createEvent, updateEvent, deleteEvent };
+module.exports = { getMyEvents, createEvent, updateEvent, pauseEvent, cancelEvent, deleteEvent };

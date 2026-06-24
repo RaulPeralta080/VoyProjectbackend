@@ -45,6 +45,7 @@ app.use('/api/events',   require('./routes/eventRoutes'));
 app.use('/api/orders',   require('./routes/orderRoutes'));
 app.use('/api/payments', require('./routes/paymentRoutes')); // <-- Integración de Mercado Pago
 app.use('/api/users',    require('./routes/userRoutes'));
+app.use('/api/admin',    require('./routes/adminRoutes'));   // <-- Panel de administración
 
 // --- MIDDLEWARES DE ERROR ---
 app.use(notFound);
