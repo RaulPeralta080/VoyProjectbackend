@@ -36,7 +36,8 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // --- DEFINICIÓN DE RUTAS ---
 app.use('/api/auth',     require('./routes/authRoutes'));
@@ -45,7 +46,6 @@ app.use('/api/events',   require('./routes/eventRoutes'));
 app.use('/api/orders',   require('./routes/orderRoutes'));
 app.use('/api/payments', require('./routes/paymentRoutes')); // <-- Integración de Mercado Pago
 app.use('/api/users',    require('./routes/userRoutes'));
-app.use('/api/admin',    require('./routes/adminRoutes'));   // <-- Panel de administración
 
 // --- MIDDLEWARES DE ERROR ---
 app.use(notFound);
@@ -54,4 +54,4 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`\x1b[32m✓ Servidor corriendo en puerto ${PORT}\x1b[0m`);
-});
+}); 

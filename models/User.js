@@ -12,10 +12,10 @@ const userSchema = new mongoose.Schema({
   avatar: { type: String },
   bio: { type: String, maxlength: [280, 'La biografía no puede superar los 280 caracteres'] },
   ubicacion: { type: String },
-  rol: { type: String, enum: ['usuario', 'artista', 'productor'], default: 'usuario' },
   role: { type: String, enum: ['client', 'producer', 'admin'], default: 'client' },
   isSuspended: { type: Boolean, default: false },
   isVerifiedProducer: { type: Boolean, default: false },
+  isPendingApproval: { type: Boolean, default: false },
   redesSociales: {
     instagram: { type: String, trim: true },
     spotify: { type: String, trim: true },

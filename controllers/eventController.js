@@ -1,4 +1,75 @@
+const { Types: { ObjectId } } = require('mongoose');
 const Event = require('../models/Event');
+
+// @desc    Obtener lista de eventos con filtros opcionales
+// @route   GET /api/events
+const getEvents = async (req, res) => {
+  try {
+    const { genero, lugar, fecha, limit } = req.query;
+    let filter = {};
+
+    // 1. Filtro por Género
+    if (genero) {
+      const generosArray = genero.split(',').map(g => g.trim());
+      filter.generos = { $in: generosArray.map(g => new RegExp(`^${g}$`, 'i')) };
+    }
+
+    // 2. Filtro por Lugar
+    if (lugar) {
+      filter.lugar = new RegExp(lugar, 'i');
+    }
+
+    // 3. Filtro por Fecha
+    if (fecha) {
+      const parsedDate = new Date(fecha);
+      if (isNaN(parsedDate.getTime())) {
+        return res.status(400).json({ mensaje: 'Fecha inválida' });
+      }
+      const startOfDay = new Date(fecha);
+      startOfDay.setUTCHours(0, 0, 0, 0);
+      const endOfDay = new Date(fecha);
+      endOfDay.setUTCHours(23, 59, 59, 999);
+      filter.fecha = { $gte: startOfDay, $lte: endOfDay };
+    }
+
+    // Solo eventos activos/publicados (a menos que seas admin)
+    // Para simplificar, devolvemos todo en esta ruta pública como antes.
+
+    let query = Event.find(filter).sort({ fecha: 1 }).populate('creador', 'nombre username avatar');
+
+    const parsedLimit = parseInt(limit);
+    if (!isNaN(parsedLimit) && parsedLimit > 0) {
+      query = query.limit(parsedLimit);
+    }
+
+    const eventos = await query;
+    res.status(200).json(eventos);
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al obtener los eventos' });
+  }
+};
+
+// @desc    Obtener detalle de un evento por ID
+// @route   GET /api/events/:id
+const getEventById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ mensaje: 'ID de evento inválido' });
+    }
+
+    const evento = await Event.findById(id).populate('creador', 'nombre username avatar');
+
+    if (!evento) {
+      return res.status(404).json({ mensaje: 'Evento no encontrado' });
+    }
+
+    res.status(200).json(evento);
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al obtener el detalle del evento' });
+  }
+};
 
 const getMyEvents = async (req, res) => {
   try {
@@ -86,4 +157,4 @@ const deleteEvent = async (req, res) => {
   }
 };
 
-module.exports = { getMyEvents, createEvent, updateEvent, pauseEvent, cancelEvent, deleteEvent };
+module.exports = { getEvents, getEventById, getMyEvents, createEvent, updateEvent, pauseEvent, cancelEvent, deleteEvent };

@@ -4,7 +4,7 @@ const Event = require('../models/Event');
 const getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({ userId: req.user._id })
-      .populate('eventId', 'nombre fecha lugar')
+      .populate('eventId', 'nombre fecha hora lugar imagen artistas')
       .sort({ createdAt: -1 });
     res.status(200).json(orders);
   } catch (error) {

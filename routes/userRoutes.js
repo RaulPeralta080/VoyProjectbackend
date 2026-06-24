@@ -6,7 +6,8 @@ const {
   getPublicProfile,
   checkUsername,
   followUser,
-  unfollowUser
+  unfollowUser,
+  toggleFavorite
 } = require('../controllers/userController');
 const { protect } = require('../middlewares/authMiddleware');
 
@@ -15,6 +16,8 @@ router.route('/me')
   .put(protect, updateUserProfile);
 
 router.get('/check-username/:username', protect, checkUsername);
+
+router.put('/favorites/:eventId', protect, toggleFavorite);
 
 router.route('/:id/follow')
   .post(protect, followUser)

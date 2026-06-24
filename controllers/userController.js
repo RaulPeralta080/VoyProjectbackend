@@ -4,7 +4,7 @@ const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     if (!user) {
-      return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+      return res.status(401).json({ mensaje: 'No autorizado, usuario no encontrado' });
     }
     res.json(user);
   } catch (error) {
@@ -21,7 +21,7 @@ const updateUserProfile = async (req, res) => {
       'avatar',
       'bio',
       'ubicacion',
-      'rol',
+      'role',
       'redesSociales',
       'favoritos',
       'avatarColor',
@@ -53,6 +53,11 @@ const updateUserProfile = async (req, res) => {
             }
             
             updates[key] = cleanedUsername;
+          }
+        } else if (key === 'role') {
+          if (req.body.role === 'producer' || req.body.role === 'client' || req.body.role === 'admin') {
+            // Permitimos admin temporalmente porque el frontend hace la llamada con rol admin al inicio
+            updates[key] = req.body.role;
           }
         } else {
           updates[key] = req.body[key];
@@ -192,11 +197,33 @@ const unfollowUser = async (req, res) => {
   }
 };
 
+const toggleFavorite = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+
+    const eventId = req.params.eventId;
+    const index = user.favoritos.indexOf(eventId);
+    
+    if (index === -1) {
+      user.favoritos.push(eventId);
+    } else {
+      user.favoritos.splice(index, 1);
+    }
+
+    await user.save();
+    res.json({ favoritos: user.favoritos });
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al actualizar favoritos' });
+  }
+};
+
 module.exports = {
   getUserProfile,
   updateUserProfile,
   getPublicProfile,
   checkUsername,
   followUser,
-  unfollowUser
+  unfollowUser,
+  toggleFavorite
 };

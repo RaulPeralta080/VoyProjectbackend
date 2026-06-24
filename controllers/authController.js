@@ -1,5 +1,8 @@
 const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
+const { OAuth2Client } = require('google-auth-library');
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // @desc    Registrar usuario
 // @route   POST /api/auth/register
@@ -62,4 +65,54 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+// @desc    Login/Registro con Google
+// @route   POST /api/auth/google
+const googleLogin = async (req, res) => {
+  const { credential } = req.body;
+
+  if (!credential) {
+    return res.status(400).json({ mensaje: 'No se recibió credencial de Google' });
+  }
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    
+    const payload = ticket.getPayload();
+    const { email, name, picture } = payload;
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // Creamos una contraseña aleatoria robusta porque el modelo lo exige
+      const randomPassword = Math.random().toString(36).slice(-10) + Math.random().toString(36).slice(-10) + "Go0gL3!";
+      user = await User.create({
+        nombre: name,
+        email: email,
+        password: randomPassword,
+        avatar: picture,
+      });
+    }
+
+    if (user.isSuspended) {
+      return res.status(403).json({ mensaje: 'Su cuenta ha sido suspendida. Contacte al administrador.' });
+    }
+
+    res.json({
+      _id: user._id,
+      nombre: user.nombre,
+      email: user.email,
+      role: user.role,
+      avatar: user.avatar,
+      token: generateToken(user._id, user.role)
+    });
+
+  } catch (error) {
+    console.error("Error validando token de Google:", error);
+    res.status(401).json({ mensaje: 'Token de Google inválido' });
+  }
+};
+
+module.exports = { registerUser, loginUser, googleLogin };

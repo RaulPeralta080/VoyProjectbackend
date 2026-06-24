@@ -14,10 +14,10 @@ const getUsers = async (req, res) => {
 
 const updateUserStatus = async (req, res) => {
   try {
-    const { rol, isSuspended, isVerifiedProducer } = req.body;
+    const { role, isSuspended, isVerifiedProducer } = req.body;
     const user = await User.findByIdAndUpdate(
       req.params.id,
-      { rol, isSuspended, isVerifiedProducer },
+      { role, isSuspended, isVerifiedProducer },
       { new: true }
     ).select('-password');
     
@@ -53,7 +53,7 @@ const toggleFeatureEvent = async (req, res) => {
     const event = await Event.findById(req.params.id);
     if (!event) return res.status(404).json({ mensaje: 'Evento no encontrado' });
 
-    event.isFeatured = !event.isFeatured;
+    event.destacado = !event.destacado;
     await event.save();
     res.json(event);
   } catch (error) {

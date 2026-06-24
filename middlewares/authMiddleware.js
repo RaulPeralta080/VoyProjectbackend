@@ -11,6 +11,9 @@ const protect = async (req, res, next) => {
 
       // Buscamos al usuario y lo inyectamos en la petición (sin el password)
       req.user = await User.findById(decoded.id).select('-password');
+      if (!req.user) {
+        return res.status(401).json({ mensaje: 'No autorizado, usuario no encontrado' });
+      }
       return next();
     } catch (error) {
       // return evita que el código siga y genere una doble respuesta
@@ -51,6 +54,11 @@ const authorizeRoles = (...roles) => {
     // Validar el rol
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({ mensaje: 'Acceso prohibido: rol no autorizado' });
+    }
+
+    // Validar que si es productor, esté verificado (salvo que sea admin)
+    if (req.user.role === 'producer' && !req.user.isVerifiedProducer) {
+      return res.status(403).json({ mensaje: 'Acceso prohibido: tu cuenta de productor aún no ha sido aprobada' });
     }
 
     next();
