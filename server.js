@@ -41,7 +41,6 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // --- DEFINICIÓN DE RUTAS ---
 app.use('/api/auth',     require('./routes/authRoutes'));
-app.use('/api/admin',    require('./routes/adminRoutes'));
 app.use('/api/events',   require('./routes/eventRoutes'));
 app.use('/api/orders',   require('./routes/orderRoutes'));
 app.use('/api/payments', require('./routes/paymentRoutes')); // <-- Integración de Mercado Pago

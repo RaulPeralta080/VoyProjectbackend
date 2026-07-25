@@ -37,6 +37,11 @@ const getEvents = async (req, res) => {
       filter.fecha = { $gte: startOfDay, $lte: endOfDay };
     }
 
+    // 4. Filtro por Precio Máximo
+    if (req.query.maxPrice) {
+      filter.precio = { $lte: Number(req.query.maxPrice) };
+    }
+
     // Solo eventos activos/publicados (a menos que seas admin)
     // Para simplificar, devolvemos todo en esta ruta pública como antes.
 

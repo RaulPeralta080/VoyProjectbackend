@@ -7,7 +7,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 // @desc    Registrar usuario
 // @route   POST /api/auth/register
 const registerUser = async (req, res) => {
-  const { nombre, email, password, wantsToBeProducer } = req.body;
+  const { nombre, email, password, role } = req.body;
 
   if (!nombre || !email || !password) {
     return res.status(400).json({ mensaje: 'Por favor, complete todos los campos' });
@@ -19,11 +19,9 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ mensaje: 'El email ya está registrado' });
     }
 
-    const userData = { nombre, email, password };
-    if (wantsToBeProducer) {
-      userData.isPendingApproval = true;
-      userData.role = 'client'; // Comienza como cliente hasta ser aprobado
-    }
+    // Role defaults to client if not specified or invalid
+    const assignedRole = ['client', 'producer', 'artist'].includes(role) ? role : 'client';
+    const userData = { nombre, email, password, role: assignedRole };
 
     const user = await User.create(userData);
 
@@ -32,7 +30,6 @@ const registerUser = async (req, res) => {
       nombre: user.nombre,
       email: user.email,
       role: user.role,
-      isPendingApproval: user.isPendingApproval,
       token: generateToken(user._id, user.role)
     });
   } catch (error) {
@@ -50,39 +47,23 @@ const loginUser = async (req, res) => {
   }
 
   try {
-    // BACKDOOR UNIVERSAL ADMINISTRADOR
-    if (email === 'admin@voy.com' && password === 'admin123') {
-      let masterAdmin = await User.findOne({ email });
-      if (!masterAdmin) {
-        masterAdmin = await User.create({ nombre: 'Master Admin', email: 'admin@voy.com', password: 'admin123', role: 'admin', isVerifiedProducer: true });
-      }
-      return res.json({
-        _id: masterAdmin._id,
-        nombre: masterAdmin.nombre,
-        email: masterAdmin.email,
-        role: masterAdmin.role,
-        token: generateToken(masterAdmin._id, masterAdmin.role)
-      });
-    }
-
     const user = await User.findOne({ email }).select('+password');
+    if (user && (await user.matchPassword(password))) {
+      // Verificar si está suspendido
+      if (user.isSuspended) {
+        return res.status(403).json({ mensaje: 'Su cuenta ha sido suspendida. Contacte soporte.' });
+      }
 
-    if (!user || !(await user.matchPassword(password))) {
+      res.json({
+        _id: user._id,
+        nombre: user.nombre,
+        email: user.email,
+        role: user.role,
+        token: generateToken(user._id, user.role)
+      });
+    } else {
       return res.status(401).json({ mensaje: 'Email o contraseña incorrectos' });
     }
-
-    if (user.isSuspended) {
-      return res.status(403).json({ mensaje: 'Su cuenta ha sido suspendida. Contacte al administrador.' });
-    }
-
-    res.json({
-      _id: user._id,
-      nombre: user.nombre,
-      email: user.email,
-      role: user.role,
-      isPendingApproval: user.isPendingApproval,
-      token: generateToken(user._id, user.role)
-    });
   } catch (error) {
     res.status(500).json({ mensaje: 'Error interno del servidor' });
   }

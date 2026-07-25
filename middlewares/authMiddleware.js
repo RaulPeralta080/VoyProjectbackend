@@ -56,11 +56,6 @@ const authorizeRoles = (...roles) => {
       return res.status(403).json({ mensaje: 'Acceso prohibido: rol no autorizado' });
     }
 
-    // Validar que si es productor, esté verificado (salvo que sea admin)
-    if (req.user.role === 'producer' && !req.user.isVerifiedProducer) {
-      return res.status(403).json({ mensaje: 'Acceso prohibido: tu cuenta de productor aún no ha sido aprobada' });
-    }
-
     next();
   };
 };
