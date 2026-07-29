@@ -226,6 +226,17 @@ const toggleFavorite = async (req, res) => {
   }
 };
 
+const getCommunityUsers = async (req, res) => {
+  try {
+    const users = await User.find({ perfilPublico: { $ne: false } })
+      .select('-password')
+      .lean();
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al obtener usuarios de la comunidad' });
+  }
+};
+
 module.exports = {
   getUserProfile,
   updateUserProfile,
@@ -233,5 +244,7 @@ module.exports = {
   checkUsername,
   followUser,
   unfollowUser,
-  toggleFavorite
+  toggleFavorite,
+  getCommunityUsers
 };
+
