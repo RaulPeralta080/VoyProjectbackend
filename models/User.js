@@ -25,16 +25,10 @@ const userSchema = new mongoose.Schema({
     web: { type: String, trim: true }
   },
   favoritos: [{ type: mongoose.Schema.Types.ObjectId }],
-  avatarColor: {
-    type: String,
-    validate: {
-      validator: function(v) {
-        return !v || /^#[0-9A-Fa-f]{6}$/.test(v);
-      },
-      message: props => `${props.value} no es un color hexadecimal válido`
-    }
-  },
+  avatarColor: { type: String },
   bannerGradiente: { type: String },
+  bannerColor: { type: String },
+  bannerImagen: { type: String },
   generosMusicales: [{ type: String }],
   vibeEnShows: [{ type: String }]
 }, { timestamps: true });

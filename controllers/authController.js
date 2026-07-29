@@ -4,24 +4,66 @@ const { OAuth2Client } = require('google-auth-library');
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
+// Helper para generar username único en backend
+async function generateUniqueUsernameBackend(baseName) {
+  let clean = baseName.toLowerCase()
+    .trim()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9._]/g, "");
+  if (!clean) clean = "usuario";
+  
+  let candidate = clean;
+  let exists = await User.findOne({ username: candidate });
+  let attempts = 0;
+  
+  while (exists && attempts < 20) {
+    const randomNum = Math.floor(100 + Math.random() * 900);
+    candidate = `${clean}${randomNum}`;
+    exists = await User.findOne({ username: candidate });
+    attempts++;
+  }
+  return candidate;
+}
+
 // @desc    Registrar usuario
 // @route   POST /api/auth/register
 const registerUser = async (req, res) => {
-  const { nombre, email, password, role } = req.body;
+  const { nombre, email, password, role, username } = req.body;
 
   if (!nombre || !email || !password) {
-    return res.status(400).json({ mensaje: 'Por favor, complete todos los campos' });
+    return res.status(400).json({ mensaje: 'Complete todos los campos requeridos.' });
   }
 
+  const normalizedEmail = email.trim().toLowerCase();
+
   try {
-    const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({ email: normalizedEmail });
     if (userExists) {
-      return res.status(400).json({ mensaje: 'El email ya está registrado' });
+      return res.status(400).json({ mensaje: 'Este email ya está registrado. Usá otro email o iniciá sesión.' });
+    }
+
+    let finalUsername = "";
+    if (username && username.trim()) {
+      const cleanUsername = username.trim().toLowerCase();
+      const usernameExists = await User.findOne({ username: cleanUsername });
+      if (usernameExists) {
+        return res.status(400).json({ mensaje: `El nombre de usuario @${cleanUsername} ya está en uso. Elegí otro.` });
+      }
+      finalUsername = cleanUsername;
+    } else {
+      // Generar automáticamente un username único para cualquier usuario (Fan, Artista, Productor)
+      finalUsername = await generateUniqueUsernameBackend(nombre);
     }
 
     // Role defaults to client if not specified or invalid
     const assignedRole = ['client', 'producer', 'artist'].includes(role) ? role : 'client';
-    const userData = { nombre, email, password, role: assignedRole };
+    const userData = {
+      nombre: nombre.trim(),
+      email: normalizedEmail,
+      password,
+      role: assignedRole,
+      username: finalUsername
+    };
 
     const user = await User.create(userData);
 
@@ -29,11 +71,16 @@ const registerUser = async (req, res) => {
       _id: user._id,
       nombre: user.nombre,
       email: user.email,
+      username: user.username,
       role: user.role,
       token: generateToken(user._id, user.role)
     });
   } catch (error) {
-    res.status(500).json({ mensaje: 'Error interno del servidor' });
+    console.error("[registerUser] Error:", error);
+    if (error.code === 11000) {
+      return res.status(400).json({ mensaje: 'El email o nombre de usuario ya está registrado.' });
+    }
+    res.status(500).json({ mensaje: 'Error interno al registrar la cuenta.' });
   }
 };
 

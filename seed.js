@@ -237,29 +237,6 @@ const usuariosDePrueba = [
     avatarColor: '#3357FF',
     bannerGradiente: 'dark',
     vibeEnShows: ['Organizado', 'Profesional']
-  },
-  {
-    nombre: 'Admin General',
-    email: 'admin@test.com',
-    password: 'password123',
-    username: 'admin',
-    avatar: '/avatars/admin.png',
-    bio: 'Administrador de la plataforma.',
-    ubicacion: 'San Miguel de Tucumán',
-    rol: 'usuario',
-    role: 'admin',
-    avatarColor: '#E60000',
-    bannerGradiente: 'dark'
-  },
-  {
-    nombre: 'Usuario Suspendido',
-    email: 'suspended@test.com',
-    password: 'password123',
-    username: 'suspended',
-    rol: 'usuario',
-    role: 'client',
-    isSuspended: true,
-    avatarColor: '#AAAAAA'
   }
 ];
 

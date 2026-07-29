@@ -29,6 +29,8 @@ const updateUserProfile = async (req, res) => {
       'favoritos',
       'avatarColor',
       'bannerGradiente',
+      'bannerColor',
+      'bannerImagen',
       'generosMusicales',
       'vibeEnShows'
     ];
@@ -58,8 +60,7 @@ const updateUserProfile = async (req, res) => {
             updates[key] = cleanedUsername;
           }
         } else if (key === 'role') {
-          if (req.body.role === 'producer' || req.body.role === 'client' || req.body.role === 'admin') {
-            // Permitimos admin temporalmente porque el frontend hace la llamada con rol admin al inicio
+          if (req.body.role === 'producer' || req.body.role === 'client' || req.body.role === 'artist') {
             updates[key] = req.body.role;
           }
         } else {
