@@ -12,6 +12,22 @@ const getMyOrders = async (req, res) => {
   }
 };
 
+const getOrderById = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id)
+      .populate('eventId', 'nombre fecha hora lugar imagen artistas');
+    if (!order) {
+      return res.status(404).json({ mensaje: 'Orden no encontrada' });
+    }
+    if (order.userId.toString() !== req.user._id.toString() && req.user.rol !== 'admin') {
+      return res.status(403).json({ mensaje: 'No autorizado para ver esta orden' });
+    }
+    res.status(200).json(order);
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al obtener la orden', detalle: error.message });
+  }
+};
+
 const createOrder = async (req, res) => {
   try {
     const { eventId, cantidad, datosComprador, subtotal, total, metodoPago } = req.body;
@@ -25,8 +41,8 @@ const createOrder = async (req, res) => {
     // Mapeo seguro de método de pago si viene del frontend
     let metodoNormalizado = metodoPago || 'efectivo';
     if (metodoNormalizado === 'Pago en Puerta') metodoNormalizado = 'efectivo';
-    if (metodoNormalizado === 'Pago por QR') metodoNormalizado = 'transferencia';
     if (metodoNormalizado === 'MercadoPago') metodoNormalizado = 'mercadopago';
+    if (metodoNormalizado === 'Pago por QR MP' || metodoNormalizado === 'qr') metodoNormalizado = 'qr_mercadopago';
 
     // 2. Generar número de orden simple y legible (ej. VOY-84920)
     const random = Math.floor(10000 + Math.random() * 90000);
@@ -61,4 +77,4 @@ const createOrder = async (req, res) => {
   }
 };
 
-module.exports = { getMyOrders, createOrder };
+module.exports = { getMyOrders, getOrderById, createOrder };
