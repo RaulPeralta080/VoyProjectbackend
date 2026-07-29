@@ -35,11 +35,18 @@ const orderSchema = new mongoose.Schema({
   },
   metodoPago: {
     type: String,
-    enum: ['mercadopago', 'transferencia', 'efectivo', 'Pago en Puerta', 'Pago por QR'],
+    enum: [
+      'mercadopago', 'MercadoPago',
+      'transferencia',
+      'efectivo', 'pago_puerta', 'pago_en_puerta', 'Pago en Puerta',
+      'qr', 'Pago por QR'
+    ],
     required: true
   },
   mpPreferenceId: { type: String },
-  mpPaymentId: { type: String }
+  mpPaymentId: { type: String },
+  instruccionesReserva: { type: String },
+  codigoQR: { type: String }
   // ------------------------
 
 }, {
