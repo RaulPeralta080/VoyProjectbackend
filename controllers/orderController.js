@@ -12,11 +12,24 @@ const getMyOrders = async (req, res) => {
   }
 };
 
+const getOrderById = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id)
+      .populate('eventId', 'nombre fecha hora lugar imagen artistas precio generos stock')
+      .populate('userId', 'nombre email');
+    if (!order) {
+      return res.status(404).json({ mensaje: 'Orden no encontrada' });
+    }
+    res.status(200).json(order);
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al obtener la orden' });
+  }
+};
+
 const createOrder = async (req, res) => {
   try {
     const { eventId, cantidad, datosComprador, subtotal, total, metodoPago } = req.body;
 
-    // 1. Solo validamos stock, YA NO DESCONTAMOS AQUÍ
     const id = eventId || req.body.eventoId;
     const evento = await Event.findById(id);
     if (!evento) return res.status(404).json({ mensaje: 'Evento no encontrado' });
@@ -32,24 +45,35 @@ const createOrder = async (req, res) => {
     const random = Math.floor(10000 + Math.random() * 90000);
     const numeroOrden = `VOY-${random}`;
 
-    // 3. Crear y guardar la orden 
-    const calcTotal = total ?? ((evento.precio || 0) * (cantidad || 1));
+    // 3. Crear y guardar la orden recalculando total correctamente si viene 0
+    const precioEvento = evento.precio || 0;
+    const cant = Number(cantidad) || 1;
+    const calcTotal = (typeof total === 'number' && total > 0) ? total : (precioEvento * cant);
+    const calcSubtotal = (typeof subtotal === 'number' && subtotal > 0) ? subtotal : calcTotal;
+
     const order = await Order.create({
       userId: req.user._id,
       eventId: id,
-      cantidad: cantidad || 1,
+      cantidad: cant,
       datosComprador: {
         nombre: datosComprador?.nombre || req.body.nombre || req.user.nombre || 'Usuario',
         apellido: datosComprador?.apellido || req.body.apellido || 'VOY',
         email: datosComprador?.email || req.body.email || req.user.email || 'usuario@voy.com',
         dni: datosComprador?.dni || req.body.dni || '0',
       },
-      subtotal: subtotal ?? calcTotal,
+      subtotal: calcSubtotal,
       total: calcTotal,
       numeroOrden,
       metodoPago: metodoNormalizado,
       estadoPago: 'PENDIENTE' 
     });
+
+    // 4. Descontar stock para métodos directos (efectivo/transferencia en puerta/QR)
+    if (metodoNormalizado !== 'mercadopago') {
+      await Event.findByIdAndUpdate(id, {
+        $inc: { stock: -cant }
+      });
+    }
 
     res.status(201).json(order);
   } catch (error) {
@@ -61,4 +85,4 @@ const createOrder = async (req, res) => {
   }
 };
 
-module.exports = { getMyOrders, createOrder };
+module.exports = { getMyOrders, createOrder, getOrderById };
