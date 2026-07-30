@@ -34,7 +34,12 @@ const eventSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
-  }
+  },
+  comentarios: [{
+    usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    texto: { type: String, required: true, trim: true },
+    createdAt: { type: Date, default: Date.now }
+  }]
 }, {
   timestamps: true,
   toJSON:   { virtuals: true },  // necesario para que 'estado' llegue al frontend

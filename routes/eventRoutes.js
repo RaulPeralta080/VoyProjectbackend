@@ -5,12 +5,17 @@ const { protect, authorizeRoles } = require('../middlewares/authMiddleware');
 const { 
   getEvents, getEventById,
   getMyEvents, createEvent, updateEvent, 
-  pauseEvent, cancelEvent, deleteEvent 
+  pauseEvent, cancelEvent, deleteEvent,
+  addComment, deleteComment
 } = require('../controllers/eventController');
 
 // Rutas Públicas (Cualquier usuario puede ver eventos)
 router.get('/', getEvents);
 router.get('/:id', getEventById);
+
+// Rutas para cualquier usuario autenticado (Comentarios)
+router.post('/:id/comments', protect, addComment);
+router.delete('/:id/comments/:commentId', protect, deleteComment);
 
 // Rutas protegidas para el productor y admin
 // Todas las rutas de escritura requieren login y ser productor o admin

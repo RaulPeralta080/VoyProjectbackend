@@ -69,7 +69,9 @@ const getEventById = async (req, res) => {
       return res.status(400).json({ mensaje: 'ID de evento inválido' });
     }
 
-    const evento = await Event.findById(id).populate('creador', 'nombre username avatar');
+    const evento = await Event.findById(id)
+      .populate('creador', 'nombre username avatar')
+      .populate('comentarios.usuario', 'nombre username avatar avatarUrl fotoPerfil avatarColor role rol');
 
     if (!evento) {
       return res.status(404).json({ mensaje: 'Evento no encontrado' });
@@ -78,6 +80,67 @@ const getEventById = async (req, res) => {
     res.status(200).json(evento);
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al obtener el detalle del evento' });
+  }
+};
+
+const addComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { texto } = req.body;
+
+    if (!texto || !texto.trim()) {
+      return res.status(400).json({ mensaje: 'El texto del comentario no puede estar vacío' });
+    }
+
+    const event = await Event.findById(id);
+    if (!event) {
+      return res.status(404).json({ mensaje: 'Evento no encontrado' });
+    }
+
+    event.comentarios.push({
+      usuario: req.user._id,
+      texto: texto.trim()
+    });
+
+    await event.save();
+
+    const updatedEvent = await Event.findById(id)
+      .populate('creador', 'nombre username avatar')
+      .populate('comentarios.usuario', 'nombre username avatar avatarUrl fotoPerfil avatarColor role rol');
+
+    res.status(201).json(updatedEvent.comentarios);
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al agregar el comentario' });
+  }
+};
+
+const deleteComment = async (req, res) => {
+  try {
+    const { id, commentId } = req.params;
+
+    const event = await Event.findById(id);
+    if (!event) {
+      return res.status(404).json({ mensaje: 'Evento no encontrado' });
+    }
+
+    const comment = event.comentarios.id(commentId);
+    if (!comment) {
+      return res.status(404).json({ mensaje: 'Comentario no encontrado' });
+    }
+
+    const isAuthor = comment.usuario.toString() === req.user._id.toString();
+    const isEventOwner = event.creador.toString() === req.user._id.toString();
+
+    if (!isAuthor && !isEventOwner) {
+      return res.status(403).json({ mensaje: 'No tienes permiso para eliminar este comentario' });
+    }
+
+    comment.deleteOne();
+    await event.save();
+
+    res.json({ mensaje: 'Comentario eliminado correctamente', commentId });
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al eliminar el comentario' });
   }
 };
 
@@ -167,4 +230,15 @@ const deleteEvent = async (req, res) => {
   }
 };
 
-module.exports = { getEvents, getEventById, getMyEvents, createEvent, updateEvent, pauseEvent, cancelEvent, deleteEvent };
+module.exports = {
+  getEvents,
+  getEventById,
+  getMyEvents,
+  createEvent,
+  updateEvent,
+  pauseEvent,
+  cancelEvent,
+  deleteEvent,
+  addComment,
+  deleteComment
+};
