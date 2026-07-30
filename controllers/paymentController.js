@@ -59,7 +59,7 @@ const createPreference = async (req, res) => {
       datosComprador,
       subtotal: totalCalculado,
       total: totalCalculado,
-      numeroOrden: `VOY-${timestamp}-${random}`,
+      numeroOrden: `VOY-${random}`,
       estadoPago: 'PENDIENTE',
       metodoPago: 'mercadopago',
       mpPreferenceId: result.id

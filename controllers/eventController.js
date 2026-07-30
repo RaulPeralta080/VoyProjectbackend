@@ -45,6 +45,11 @@ const getEvents = async (req, res) => {
     // Solo eventos activos/publicados (a menos que seas admin)
     // Para simplificar, devolvemos todo en esta ruta pública como antes.
 
+    // Siempre filtrar solo eventos futuros o de hoy en adelante
+    const startOfToday = new Date();
+    startOfToday.setUTCHours(0, 0, 0, 0);
+    filter.fecha = { ...filter.fecha, $gte: startOfToday };
+
     let query = Event.find(filter).sort({ fecha: 1 }).populate('creador', 'nombre username avatar');
 
     const parsedLimit = parseInt(limit);
