@@ -8,12 +8,12 @@ dotenv.config();
 const eventosDePrueba = [
   // ─── FLYERS REALES ────────────────────────────────────────────────────────
   {
-    nombre: "New Direction — Danny Proyectil",
+    nombre: "New Direction, Danny Proyectil",
     imagen: "/flyer-danny-proyectil.png",
     generos: ["Post-Punk", "New Wave", "Alternativo"],
     fecha: new Date("2026-09-12"),
     hora: "22:00",
-    lugar: "Oskar — Virgen de la Merced 611",
+    lugar: "Oskar, Virgen de la Merced 611",
     descripcion: "Danny Proyectil vuelve a Oskar a presentar New Direction, el EP que grabaron en cuatro días sin parar. Post-punk del sucio, new wave con los dientes apretados. Entra Por Somos Humanos de soporte. Llegá temprano porque esto se llena.",
     precio: 3500,
     artistas: [
@@ -24,13 +24,13 @@ const eventosDePrueba = [
     stock: 80,
   },
   {
-    nombre: "Debut — Las Cosas Inexplicables",
+    nombre: "Las Cosas Inexplicables en Vivo",
     imagen: "/flyer-las-cosas-inexplicables.png",
     generos: ["Noise Rock", "Alternativo", "Indie"],
     fecha: new Date("2026-10-03"),
     hora: "22:00",
-    lugar: "Oskar — Virgen de la Merced 611",
-    descripcion: "Las Cosas Inexplicables tiran la primera en Oskar. Debut oficial con Lacrifagia de soporte. Dos bandas que llevan el under tucumano a donde tiene que ir. Ruido, distorsión y mucho corazón metido adentro.",
+    lugar: "Oskar, Virgen de la Merced 611",
+    descripcion: "Las Cosas Inexplicables tiran la primera en Oskar. Presentación oficial con Lacrifagia de soporte. Dos bandas que llevan el under tucumano a donde tiene que ir. Ruido, distorsión y mucho corazón metido adentro.",
     precio: 2500,
     artistas: [
       { nombre: "Las Cosas Inexplicables", headliner: true },
@@ -40,12 +40,12 @@ const eventosDePrueba = [
     stock: 70,
   },
   {
-    nombre: "Sabbath Fest — Edición Tucumán",
+    nombre: "Sabbath Fest, Edición Tucumán",
     imagen: "/flyer-sabbath-fest.png",
     generos: ["Metal", "Stoner", "Doom", "Heavy Rock"],
     fecha: new Date("2026-11-07"),
     hora: "21:00",
-    lugar: "Casa Barrio — 9 de Julio 1032",
+    lugar: "Casa Barrio, 9 de Julio 1032",
     descripcion: "Primera edición del Sabbath Fest en Casa Barrio. Tres horas de riffs pesados, luces bajas y headbanging en el centro. Las Maldiciones abren, Danny Proyectil en el medio y Lacrifagia cierra. No hay manera de que esto salga mal.",
     precio: 5000,
     artistas: [
@@ -57,12 +57,12 @@ const eventosDePrueba = [
     stock: 150,
   },
   {
-    nombre: "Para Salir de la Oscuridad — Lacrifagia",
+    nombre: "Para Salir de la Oscuridad, Lacrifagia",
     imagen: "/flyer-lacrifagia.png",
     generos: ["Post-Hardcore", "Emo", "Screamo"],
     fecha: new Date("2026-10-17"),
     hora: "21:00",
-    lugar: "Utopía Bar — Laprida 330",
+    lugar: "Utopía Bar, Laprida 330",
     descripcion: "Lacrifagia presenta Para Salir de la Oscuridad en Utopía. Show íntimo, entradas contadas. El material nuevo es denso y honesto. Si ya los viste, sabés lo que viene. Si no los viste, este es el momento.",
     precio: 5000,
     artistas: [
@@ -73,12 +73,12 @@ const eventosDePrueba = [
   },
   // ─── FESTIVAL GRATUITO ────────────────────────────────────────────────────
   {
-    nombre: "Festival MAP — Edición Verano",
+    nombre: "Festival MAP, Edición Verano",
     imagen: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
     generos: ["Indie", "Rock", "Folk"],
     fecha: new Date("2026-12-05"),
     hora: "17:00",
-    lugar: "Casa de la Cultura de Tucumán — 25 de Mayo 73",
+    lugar: "Casa de la Cultura de Tucumán, 25 de Mayo 73",
     descripcion: "El MAP cierra el año en la Casa de la Cultura con grilla libre y gratuita. Cinco bandas locales que mezclan indie, rock y folk. Feria de fanzines en la entrada, dibujo en vivo y foodtrucks afuera. Llevá la silla o hacé pogo, hay lugar para todo.",
     precio: 0,
     artistas: [
@@ -93,12 +93,12 @@ const eventosDePrueba = [
   },
   // ─── CICLO UNDER EN BARES ─────────────────────────────────────────────────
   {
-    nombre: "Noche Under — La Gesta Cultural",
+    nombre: "Noche Under, La Gesta Cultural",
     imagen: "https://images.unsplash.com/photo-1508854710579-5cecc3a9ff17?auto=format&fit=crop&w=1200&q=80",
     generos: ["Indie", "Shoegaze"],
     fecha: new Date("2026-09-26"),
     hora: "21:30",
-    lugar: "La Gesta Cultural — Congreso 177",
+    lugar: "La Gesta Cultural, Congreso 177",
     descripcion: "Ciclo under en La Gesta. Tres bandas de indie y shoegaze en el espacio más chico y más lindo del centro. Pez Espada abre, Terrón en el medio y cierra Costas. Mesa de mezcla arriba, gente abajo, todo junto.",
     precio: 1500,
     artistas: [
@@ -110,12 +110,12 @@ const eventosDePrueba = [
     stock: 45,
   },
   {
-    nombre: "Sábado Punk — Bar El Garito",
+    nombre: "Sábado Punk, Bar El Garito",
     imagen: "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=1200&q=80",
     generos: ["Punk", "Hardcore"],
     fecha: new Date("2026-10-10"),
     hora: "22:00",
-    lugar: "El Garito — Mendoza 985",
+    lugar: "El Garito, Mendoza 985",
     descripcion: "El Garito enciende el sábado. Punk y hardcore con La Mugre abriendo, Palco Roto en el medio y Código Rojo cerrando. Pocas entradas porque el local tiene capacidad para nada. Si querés ir, anotate ahora.",
     precio: 1000,
     artistas: [
@@ -127,12 +127,12 @@ const eventosDePrueba = [
     stock: 8,
   },
   {
-    nombre: "Ciclo Cultura Oqlta — Patio Reconvertido",
+    nombre: "Ciclo Cultura Oqlta, Patio Reconvertido",
     imagen: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1200&q=80",
     generos: ["Indie", "Alternativo"],
     fecha: new Date("2026-11-21"),
     hora: "20:00",
-    lugar: "La Casona del Centro — San Martín 850",
+    lugar: "La Casona del Centro, San Martín 850",
     descripcion: "Cultura Oqlta convierte la Casona en escenario. Cuatro bandas que no paran de trabajar. Siesta de Agosto y Viernes de Patio en los primeros turnos, Corte Transversal calentando y Maleza cerrando la noche como sabe. Entrada anticipada más barata en el link.",
     precio: 2000,
     artistas: [
@@ -145,12 +145,12 @@ const eventosDePrueba = [
     stock: 80,
   },
   {
-    nombre: "Finde de Bandas — El Piletón",
+    nombre: "Finde de Bandas, El Piletón",
     imagen: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80",
     generos: ["Rock", "Grunge"],
     fecha: new Date("2026-12-12"),
     hora: "21:00",
-    lugar: "El Piletón — Rondeau 478",
+    lugar: "El Piletón, Rondeau 478",
     descripcion: "El Piletón cierra el año con un finde de rock y grunge. Tierra Cruda abre la noche y Ruido Sagrado se lleva todo puesto. Capaz sea el último show de Ruido Sagrado por un buen rato, así que no te lo pierdas.",
     precio: 1500,
     artistas: [
@@ -166,7 +166,7 @@ const eventosDePrueba = [
     generos: ["Indie", "Rock", "Folk", "Alternativo"],
     fecha: new Date("2026-12-19"),
     hora: "16:00",
-    lugar: "Casa de la Cultura de Tucumán — 25 de Mayo 73",
+    lugar: "Casa de la Cultura de Tucumán, 25 de Mayo 73",
     descripcion: "El festival más grande de música indie del NOA cierra el año con todo. Dos escenarios, cinco bandas, feria de fanzines y artistas plásticos en vivo. Las Ligas Menores, Viento de Norte, Los Tripulantes y Costas abren el camino. Mango de Hacha cierra. Entrada libre y gratuita.",
     precio: 0,
     artistas: [
