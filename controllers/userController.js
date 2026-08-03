@@ -31,6 +31,7 @@ const updateUserProfile = async (req, res) => {
       'bannerGradiente',
       'bannerColor',
       'bannerImagen',
+      'lema',
       'generosMusicales',
       'vibeEnShows'
     ];
@@ -126,7 +127,11 @@ const getPublicProfile = async (req, res) => {
       favoritos: user.favoritos,
       avatarColor: user.avatarColor,
       bannerGradiente: user.bannerGradiente,
+      bannerColor: user.bannerColor,
+      bannerImagen: user.bannerImagen,
+      lema: user.lema,
       vibeEnShows: user.vibeEnShows,
+      generosMusicales: user.generosMusicales,
       createdAt: user.createdAt
     };
 

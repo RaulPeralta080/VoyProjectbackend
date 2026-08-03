@@ -11,6 +11,31 @@ const {
 
 // Rutas Públicas (Cualquier usuario puede ver eventos)
 router.get('/', getEvents);
+
+// Ruta pública para limpieza automática de eventos de prueba (Cypress E2E)
+router.delete('/cleanup/test-data', async (req, res) => {
+  try {
+    const Event = require('../models/Event');
+    const User = require('../models/User');
+    const eventResult = await Event.deleteMany({
+      $or: [
+        { nombre: { $regex: /cypress|test|productora|festival/i } },
+        { title: { $regex: /cypress|test|productora|festival/i } }
+      ]
+    });
+    const userResult = await User.deleteMany({
+      $or: [
+        { email: { $regex: /test|fan|productora|demo/i } },
+        { username: { $regex: /test|fan|productora|demo|rock/i } },
+        { nombre: { $regex: /test|fan|productora|demo/i } }
+      ]
+    });
+    res.json({ mensaje: 'Limpieza de datos de prueba completada', eventos: eventResult.deletedCount, usuarios: userResult.deletedCount });
+  } catch (err) {
+    res.status(500).json({ mensaje: 'Error al limpiar datos de prueba', error: err.message });
+  }
+});
+
 router.get('/:id', getEventById);
 
 // Rutas para cualquier usuario autenticado (Comentarios)

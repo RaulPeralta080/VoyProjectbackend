@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema({
   bannerGradiente: { type: String },
   bannerColor: { type: String },
   bannerImagen: { type: String },
+  lema: { type: String },
   generosMusicales: [{ type: String }],
   vibeEnShows: [{ type: String }]
 }, { timestamps: true });
