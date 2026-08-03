@@ -14,7 +14,7 @@ const eventosDePrueba = [
     fecha: new Date("2026-09-12"),
     hora: "22:00",
     lugar: "Oskar, Virgen de la Merced 611",
-    descripcion: "Danny Proyectil presenta New Direction Show en Oskar junto a Entre Penumbras, Lacrifagia y Para Salir de la Oscuridad. Post-punk, grunge y rock independiente del NOA.",
+    descripcion: "Danny Proyectil presenta New Direction Show en Oskar junto a Entre Penumbras, Lacrifagia y Para Salir de la Oscuridad. Post-punk, grunge y rock independiente de todo Tucumán.",
     precio: 3500,
     artistas: [
       { nombre: "Danny Proyectil", headliner: true },
@@ -163,13 +163,13 @@ const eventosDePrueba = [
     stock: 50,
   },
   {
-    nombre: "Festival Emergente NOA",
+    nombre: "Festival Emergente Tucumán",
     imagen: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80",
     generos: ["Indie", "Rock", "Folk", "Alternativo"],
     fecha: new Date("2026-12-19"),
     hora: "16:00",
     lugar: "Casa de la Cultura de Tucumán, 25 de Mayo 73",
-    descripcion: "El festival más grande de música indie del NOA cierra el año con todo. Dos escenarios, cinco bandas, feria de fanzines y artistas plásticos en vivo. Las Ligas Menores, Viento de Norte, Los Tripulantes y Costas abren el camino. Mango de Hacha cierra. Entrada libre y gratuita.",
+    descripcion: "El festival más grande de música indie de Tucumán cierra el año con todo. Dos escenarios, cinco bandas, feria de fanzines y artistas plásticos en vivo. Las Ligas Menores, Viento de Norte, Los Tripulantes y Costas abren el camino. Mango de Hacha cierra. Entrada libre y gratuita.",
     precio: 0,
     artistas: [
       { nombre: "Las Ligas Menores" },
