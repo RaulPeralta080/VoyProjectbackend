@@ -21,7 +21,11 @@ const eventSchema = new mongoose.Schema({
   precio:   { type: Number, default: 0 },
   descripcion: { type: String, default: '' },
   informacionAdicional: { type: String, default: '' },
-  artistas: [{ nombre: { type: String, required: true }, headliner: { type: Boolean, default: false } }],
+  artistas: [{
+    nombre: { type: String, required: true },
+    headliner: { type: Boolean, default: false },
+    usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+  }],
   stock:          { type: Number, default: 0 },
   capacidadTotal: { type: Number, default: 1 },
   destacado: { type: Boolean, default: false },
