@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {
   getUserProfile,
+  getAllArtists,
   updateUserProfile,
   getPublicProfile,
   checkUsername,
@@ -10,6 +11,8 @@ const {
   toggleFavorite
 } = require('../controllers/userController');
 const { protect } = require('../middlewares/authMiddleware');
+
+router.get('/artists/list', getAllArtists);
 
 router.route('/me')
   .get(protect, getUserProfile)

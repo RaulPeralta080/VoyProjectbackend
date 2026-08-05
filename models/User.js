@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema({
   redesSociales: {
     instagram: { type: String, trim: true },
     spotify: { type: String, trim: true },
+    spotifyTrack: { type: String, trim: true },
     youtube: { type: String, trim: true },
     web: { type: String, trim: true }
   },

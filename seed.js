@@ -12,7 +12,10 @@ const usuariosDePrueba = [
     password: 'password123',
     username: 'juanperez',
     avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80',
-    bio: 'Melómano y seguidor de la escena under de Tucumán.',
+    avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80',
+    lema: 'Melómano impenitente del under tucumano.',
+    bio: 'Melómano y seguidor incondicional de la escena under de Tucumán. Recorriendo fechas locales desde 2018.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'usuario',
     role: 'client',
@@ -27,7 +30,10 @@ const usuariosDePrueba = [
     password: 'password123',
     username: 'produccionesoskar',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
-    bio: 'Organizador de eventos underground y ciclos culturales.',
+    avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
+    lema: 'Gestionando cultura independiente en el NOA.',
+    bio: 'Organizador de eventos underground, fechas alternativas y ciclos culturales independientes en Tucumán.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'productor',
     role: 'producer',
@@ -37,50 +43,63 @@ const usuariosDePrueba = [
     bannerGradiente: 'dark',
     vibeEnShows: ['Organizado', 'Profesional']
   },
-  // ARTISTAS REGISTRADOS CON FOTOS TOCANDO EN VIVO Y BANNERS DE EVENTOS
+
+  // ─── ARTISTAS CON PERFILES COMPLETOS Y LEMAS INVESTIGADOS ──────────────────
+  {
+    nombre: 'Lacrifagia',
+    email: 'lacrifagia@test.com',
+    password: 'password123',
+    username: 'lacrifagia.banda',
+    avatar: '/lacrifagia-avatar.png',
+    avatarUrl: '/lacrifagia-avatar.png',
+    fotoPerfil: '/lacrifagia-avatar.png',
+    bannerImagen: '/lacrifagia-banner.png',
+    lema: 'Cuarteto de emo, post-hardcore y rock alternativo.',
+    bio: 'Banda nacida en San Miguel de Tucumán dedicada al post-hardcore, emo y rock alternativo. Expresando catarsis, energía cruda y letras profundas en cada fecha del under tucumano.',
+    ubicacion: 'San Miguel de Tucumán',
+    rol: 'artista',
+    role: 'artist',
+    redesSociales: { instagram: '@lacrifagia.banda', spotifyTrack: 'https://open.spotify.com/track/3c42zbZ1m4s1R3zsGDgzE7?si=06c445bec2534c0c' },
+    avatarColor: 'none',
+    bannerGradiente: 'g2'
+  },
   {
     nombre: 'Danny Proyectil',
     email: 'danny@test.com',
     password: 'password123',
     username: 'danny_proyectil',
     avatar: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
+    avatarUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
     bannerImagen: '/flyer-danny-proyectil.png',
-    bio: 'Post-punk y grunge tucumano. Riffs oscuros, bajos pulsantes y la actitud del New Direction.',
+    lema: 'Post-punk y grunge tucumano con actitud New Direction.',
+    bio: 'Trío de post-punk, grunge y rock alternativo de Yerba Buena. Sonido oscuro con bajos pulsantes, distorsiones ruidosas y letras urbanas.',
     ubicacion: 'Yerba Buena',
     rol: 'artista',
     role: 'artist',
-    redesSociales: { instagram: '@danny_proyectil' },
-    avatarColor: '#33FF57',
+    redesSociales: { instagram: '@danny_proyectil', spotifyTrack: 'https://open.spotify.com/track/1Bxfay2wALPHxfsMVyG1vM' },
+    avatarColor: 'none',
     bannerGradiente: 'g3'
-  },
-  {
-    nombre: 'Lacrifagia',
-    email: 'lacrifagia@test.com',
-    password: 'password123',
-    username: 'lacrifagia.banda',
-    avatar: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=600&q=80',
-    bannerImagen: '/flyer-lacrifagia.png',
-    bio: 'Hardcore, emo y rock alternativo tucumano. Expresando catarsis, enojo y verdad en cada fecha.',
-    ubicacion: 'San Miguel de Tucumán',
-    rol: 'artista',
-    role: 'artist',
-    redesSociales: { instagram: '@lacrifagia.banda' },
-    avatarColor: '#FF2D78',
-    bannerGradiente: 'g2'
   },
   {
     nombre: 'Bogardus',
     email: 'bogardus@test.com',
     password: 'password123',
     username: 'bogardus.ok',
-    avatar: 'https://images.unsplash.com/photo-1508854710579-5cecc3a9ff17?auto=format&fit=crop&w=600&q=80',
-    bannerImagen: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80',
-    bio: 'Rock crudo, surf punk y psicodelia tucumana. Dos décadas haciendo arder los escenarios del under.',
+    avatar: '/bogardus-avatar.png',
+    avatarUrl: '/bogardus-avatar.png',
+    fotoPerfil: '/bogardus-avatar.png',
+    bannerImagen: '/bogardus-banner.png',
+    lema: 'VIVA EL DIAVLO.',
+    bio: 'Icónica banda tucumana de surf punk, grunge y rock psicodélico. Dos décadas encendiendo los escenarios del underground del NOA con distorsión valvular, estética DIY y una potente energía en vivo.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'artista',
     role: 'artist',
-    redesSociales: { instagram: '@bogardus.ok' },
-    avatarColor: '#00FF9F',
+    redesSociales: { 
+      instagram: '@bogardus.ok', 
+      spotifyTrack: 'https://open.spotify.com/track/3PyhGllBciGG2vWC65ilps?si=91738f6859824644' 
+    },
+    avatarColor: 'none',
     bannerGradiente: 'g4'
   },
   {
@@ -89,13 +108,16 @@ const usuariosDePrueba = [
     password: 'password123',
     username: 'mientraselobo',
     avatar: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80',
+    avatarUrl: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80',
     bannerImagen: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
-    bio: 'Hermandad, canciones directas y rock alternativo de pura cepa tucumana.',
+    lema: 'Canciones directas, hermandad y rock alternativo de cepa tucumana.',
+    bio: 'Banda de rock alternativo tucumana caracterizada por melodías viscerales, lírica introspectiva y guitarras melódicas al frente.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'artista',
     role: 'artist',
-    redesSociales: { instagram: '@mientraselobo' },
-    avatarColor: '#FFD600',
+    redesSociales: { instagram: '@mientraselobo', spotifyTrack: 'https://open.spotify.com/track/3n3Ppam7vgaVa1iaRUc9Lp' },
+    avatarColor: 'none',
     bannerGradiente: 'g1'
   },
   {
@@ -104,13 +126,16 @@ const usuariosDePrueba = [
     password: 'password123',
     username: 'utopico.amanecer',
     avatar: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80',
+    avatarUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80',
     bannerImagen: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1200&q=80',
-    bio: 'Dream rock y synth pop alternativo. Oscilando entre la nostalgia, la euforia y las texturas envolventes.',
+    lema: 'Dream rock y synth pop en texturas envolventes.',
+    bio: 'Proyecto de dream rock y synth pop alternativo que oscila entre la nostalgia sintetizada, la euforia y climas nocturnos.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'artista',
     role: 'artist',
-    redesSociales: { instagram: '@utopico.amanecer' },
-    avatarColor: '#00E5FF',
+    redesSociales: { instagram: '@utopico.amanecer', spotifyTrack: 'https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b' },
+    avatarColor: 'none',
     bannerGradiente: 'g5'
   },
   {
@@ -119,13 +144,16 @@ const usuariosDePrueba = [
     password: 'password123',
     username: 'las.maldiciones',
     avatar: 'https://images.unsplash.com/photo-1511735111819-9a3f7709049c?auto=format&fit=crop&w=600&q=80',
+    avatarUrl: 'https://images.unsplash.com/photo-1511735111819-9a3f7709049c?auto=format&fit=crop&w=600&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1511735111819-9a3f7709049c?auto=format&fit=crop&w=600&q=80',
     bannerImagen: '/flyer-sabbath-fest.png',
-    bio: 'Stoner rock, doom y metal oscuro del centro tucumano. Riffs lentos y pesados que retumban en el suelo.',
+    lema: 'Stoner rock, doom metal y riffs pesados del centro.',
+    bio: 'Trío de stoner rock y doom metal oscuro del centro tucumano. Bajos valvulares pesados y tempos lentos que hacen retumbar el suelo.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'artista',
     role: 'artist',
-    redesSociales: { instagram: '@las.maldiciones' },
-    avatarColor: '#A044FF',
+    redesSociales: { instagram: '@las.maldiciones', spotifyTrack: 'https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT' },
+    avatarColor: 'none',
     bannerGradiente: 'dark'
   },
   {
@@ -134,13 +162,16 @@ const usuariosDePrueba = [
     password: 'password123',
     username: 'plutoniojam',
     avatar: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=600&q=80',
+    avatarUrl: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=600&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=600&q=80',
     bannerImagen: 'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?auto=format&fit=crop&w=1200&q=80',
-    bio: 'Reggae, ska y fusión rítmica tucumana. Buenas vibras y vientos al frente para hacer bailar al under.',
+    lema: 'Reggae, ska y fusión rítmica con vientos al frente.',
+    bio: 'Colectivo de reggae, ska y música latina tucumana. Ritmos festivos, sección de vientos potente y buenas vibras para bailar.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'artista',
     role: 'artist',
-    redesSociales: { instagram: '@plutoniojam' },
-    avatarColor: '#00FF9F',
+    redesSociales: { instagram: '@plutoniojam', spotifyTrack: 'https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b' },
+    avatarColor: 'none',
     bannerGradiente: 'g2'
   },
   {
@@ -149,13 +180,16 @@ const usuariosDePrueba = [
     password: 'password123',
     username: 'bmblackmidi',
     avatar: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80',
+    avatarUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80',
     bannerImagen: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1200&q=80',
-    bio: 'black midi easter egg',
+    lema: 'Math rock, post-punk avant-garde y caos instrumental.',
+    bio: 'Agrupación de math rock y post-punk experimental reconocida por sus complejas estructuras rítmicas e improvisación técnica salvaje.',
     ubicacion: 'Londres, Reino Unido 🇬🇧',
     rol: 'artista',
     role: 'artist',
-    redesSociales: { instagram: '@bmblackmidi' },
-    avatarColor: '#FF2D78',
+    redesSociales: { instagram: '@bmblackmidi', spotifyTrack: 'https://open.spotify.com/track/3Zhh358vO46xLFFJrm9E0K' },
+    avatarColor: 'none',
     bannerGradiente: 'g4'
   },
   {
@@ -164,12 +198,15 @@ const usuariosDePrueba = [
     password: 'password123',
     username: 'lamugre',
     avatar: 'https://images.unsplash.com/photo-1508854710579-5cecc3a9ff17?auto=format&fit=crop&w=600&q=80',
-    bio: 'Indie del barrio. Letras de caño y de tarde en el centro.',
+    avatarUrl: 'https://images.unsplash.com/photo-1508854710579-5cecc3a9ff17?auto=format&fit=crop&w=600&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1508854710579-5cecc3a9ff17?auto=format&fit=crop&w=600&q=80',
+    lema: 'Indie de barrio y canciones urbanas del centro.',
+    bio: 'Banda de indie rock urbano nacida en el centro tucumano. Letras directas, callejeras y ritmo cotidiano del NOA.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'artista',
     role: 'artist',
     redesSociales: { instagram: '@lamugre' },
-    avatarColor: '#FFD600',
+    avatarColor: 'none',
     bannerGradiente: 'g1'
   },
   {
@@ -178,12 +215,15 @@ const usuariosDePrueba = [
     password: 'password123',
     username: 'palcoroto',
     avatar: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80',
-    bio: 'Shoegaze tucumano. Suenan como si el calor se volviera ruido.',
+    avatarUrl: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80',
+    lema: 'Shoegaze tucumano. Ruido, distorsión y paredes de sonido.',
+    bio: 'Cuarteto de shoegaze y noise pop tucumano. Paredes de sonido analógico, reverbs densos y vocales etéreas.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'artista',
     role: 'artist',
     redesSociales: { instagram: '@palcoroto' },
-    avatarColor: '#00E5FF',
+    avatarColor: 'none',
     bannerGradiente: 'g2'
   },
   {
@@ -192,12 +232,15 @@ const usuariosDePrueba = [
     password: 'password123',
     username: 'siestadeagosto',
     avatar: 'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=600&q=80',
-    bio: 'Indie folk y melodías íntimas de la siesta tucumana.',
+    avatarUrl: 'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=600&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=600&q=80',
+    lema: 'Indie folk y canciones íntimas de la tarde tucumana.',
+    bio: 'Proyecto de indie folk acústico y melodías nostálgicas inspiradas en las tardes calurosas de siesta en el norte.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'artista',
     role: 'artist',
     redesSociales: { instagram: '@siestadeagosto' },
-    avatarColor: '#A044FF',
+    avatarColor: 'none',
     bannerGradiente: 'g3'
   },
   {
@@ -206,12 +249,15 @@ const usuariosDePrueba = [
     password: 'password123',
     username: 'maleza',
     avatar: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=600&q=80',
-    bio: 'Indie rock del NOA. Riffs frescos, juventud y espíritu festivalero.',
+    avatarUrl: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=600&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=600&q=80',
+    lema: 'Indie rock del NOA. Riffs frescos y espíritu festivalero.',
+    bio: 'Banda de indie rock y pop alternativo de Yerba Buena. Melodías luminosas, dinamismo y frescura escénica.',
     ubicacion: 'Yerba Buena',
     rol: 'artista',
     role: 'artist',
     redesSociales: { instagram: '@maleza' },
-    avatarColor: '#00FF9F',
+    avatarColor: 'none',
     bannerGradiente: 'g4'
   },
   {
@@ -220,13 +266,70 @@ const usuariosDePrueba = [
     password: 'password123',
     username: 'costas',
     avatar: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=600&q=80',
-    bio: 'Shoegaze e indie en los escenarios más chicos y más lindos del under.',
+    avatarUrl: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=600&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=600&q=80',
+    lema: 'Shoegaze e indie en los rincones más lindos del under.',
+    bio: 'Agrupación de shoegaze y dreampop tucumano enfocada en climas envolventes y presentaciones en espacios alternativos.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'artista',
     role: 'artist',
     redesSociales: { instagram: '@costas' },
-    avatarColor: '#FF2D78',
+    avatarColor: 'none',
     bannerGradiente: 'g5'
+  },
+  {
+    nombre: 'Entre Penumbras',
+    email: 'entrepenumbras@test.com',
+    password: 'password123',
+    username: 'entrepenumbras',
+    avatar: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80',
+    avatarUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80',
+    bannerImagen: 'https://images.unsplash.com/photo-1508854710579-5cecc3a9ff17?auto=format&fit=crop&w=1200&q=80',
+    lema: 'Post-punk atmosférico y paisajes sombríos.',
+    bio: 'Proyecto de post-punk y shoegaze emergente de San Miguel de Tucumán. Texturas sombrías y atmósferas nocturnas.',
+    ubicacion: 'San Miguel de Tucumán',
+    rol: 'artista',
+    role: 'artist',
+    redesSociales: { instagram: '@entrepenumbras' },
+    avatarColor: 'none',
+    bannerGradiente: 'g1'
+  },
+  {
+    nombre: 'Para Salir de la Oscuridad',
+    email: 'parasalir@test.com',
+    password: 'password123',
+    username: 'parasalirdelaoscuridad',
+    avatar: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
+    avatarUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
+    bannerImagen: '/flyer-lacrifagia.png',
+    lema: 'Screamo, emo noventero y catarsis colectiva.',
+    bio: 'Banda de screamo y emo violencia tucumana. Canciones urgentes, pasajes armónicos y un directo cargado de emoción cruda.',
+    ubicacion: 'San Miguel de Tucumán',
+    rol: 'artista',
+    role: 'artist',
+    redesSociales: { instagram: '@parasalirdelaoscuridad' },
+    avatarColor: '#FF2D78',
+    bannerGradiente: 'g2'
+  },
+  {
+    nombre: 'Las Cosas Inexplicables',
+    email: 'lascosas@test.com',
+    password: 'password123',
+    username: 'lascosasinexplicables',
+    avatar: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80',
+    avatarUrl: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80',
+    fotoPerfil: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80',
+    bannerImagen: '/flyer-las-cosas-inexplicables.png',
+    lema: 'Math rock e indie instrumental de compases desarmados.',
+    bio: 'Cuarteto de math rock e indie progresivo tucumano. Complejidad rítmica, guitarras entrelazadas y climas instrumentales dinámicos.',
+    ubicacion: 'San Miguel de Tucumán',
+    rol: 'artista',
+    role: 'artist',
+    redesSociales: { instagram: '@lascosasinexplicables' },
+    avatarColor: '#00FF9F',
+    bannerGradiente: 'g3'
   }
 ];
 
@@ -242,9 +345,9 @@ const eventosDePruebaSinUsuarios = [
     descripcion: "Danny Proyectil presenta New Direction Show en Oskar junto a Entre Penumbras, Lacrifagia y Para Salir de la Oscuridad. Post-punk, grunge y rock independiente de todo Tucumán.",
     precio: 3500,
     artistasBandas: [
-      { nombre: "Entre Penumbras" },
+      { nombre: "Entre Penumbras", username: "entrepenumbras" },
       { nombre: "Lacrifagia", username: "lacrifagia.banda" },
-      { nombre: "Para Salir de la Oscuridad" },
+      { nombre: "Para Salir de la Oscuridad", username: "parasalirdelaoscuridad" },
       { nombre: "Danny Proyectil", username: "danny_proyectil", headliner: true },
     ],
     capacidadTotal: 80,
@@ -260,8 +363,8 @@ const eventosDePruebaSinUsuarios = [
     descripcion: "Debut oficial de Lacrifagia presentando Los Días No Vividos en Utopía House junto a Para Salir de la Oscuridad y Las Cosas Inexplicables. Post-hardcore, emo y screamo en el centro de Tucumán.",
     precio: 2500,
     artistasBandas: [
-      { nombre: "Para Salir de la Oscuridad" },
-      { nombre: "Las Cosas Inexplicables" },
+      { nombre: "Para Salir de la Oscuridad", username: "parasalirdelaoscuridad" },
+      { nombre: "Las Cosas Inexplicables", username: "lascosasinexplicables" },
       { nombre: "Lacrifagia", username: "lacrifagia.banda", headliner: true },
     ],
     capacidadTotal: 70,
@@ -402,15 +505,65 @@ const seedDB = async () => {
     
     const seededEvents = await Event.insertMany(eventosConCreador);
 
-    seededUsers[0].siguiendo.push(seededUsers[2]._id);
-    seededUsers[2].seguidores.push(seededUsers[0]._id);
-    seededUsers[0].favoritos.push(seededEvents[0]._id);
+    // ─── CONEXIONES SOCIALES DE SEGUIDORES Y SIGUIENDO REALES ──────────────────
+    const userMap = {};
+    seededUsers.forEach(u => { userMap[u.username] = u; });
 
-    await seededUsers[0].save();
-    await seededUsers[2].save();
+    // Juan Perez sigue a Lacrifagia, Bogardus, Danny Proyectil
+    if (userMap['juanperez'] && userMap['lacrifagia.banda']) {
+      userMap['juanperez'].siguiendo.push(userMap['lacrifagia.banda']._id);
+      userMap['lacrifagia.banda'].seguidores.push(userMap['juanperez']._id);
+    }
+    if (userMap['juanperez'] && userMap['bogardus.ok']) {
+      userMap['juanperez'].siguiendo.push(userMap['bogardus.ok']._id);
+      userMap['bogardus.ok'].seguidores.push(userMap['juanperez']._id);
+    }
+    if (userMap['juanperez'] && userMap['danny_proyectil']) {
+      userMap['juanperez'].siguiendo.push(userMap['danny_proyectil']._id);
+      userMap['danny_proyectil'].seguidores.push(userMap['juanperez']._id);
+    }
+
+    // Lacrifagia sigue a Danny Proyectil, Las Maldiciones, Para Salir de la Oscuridad y Mientras el Lobo
+    if (userMap['lacrifagia.banda']) {
+      ['danny_proyectil', 'las.maldiciones', 'parasalirdelaoscuridad', 'mientraselobo'].forEach(targetUsername => {
+        if (userMap[targetUsername]) {
+          userMap['lacrifagia.banda'].siguiendo.push(userMap[targetUsername]._id);
+          userMap[targetUsername].seguidores.push(userMap['lacrifagia.banda']._id);
+        }
+      });
+    }
+
+    // Danny Proyectil sigue a Lacrifagia, Bogardus y Entre Penumbras
+    if (userMap['danny_proyectil']) {
+      ['lacrifagia.banda', 'bogardus.ok', 'entrepenumbras'].forEach(targetUsername => {
+        if (userMap[targetUsername]) {
+          userMap['danny_proyectil'].siguiendo.push(userMap[targetUsername]._id);
+          userMap[targetUsername].seguidores.push(userMap['danny_proyectil']._id);
+        }
+      });
+    }
+
+    // Bogardus sigue a Utópico Amanecer y black midi
+    if (userMap['bogardus.ok']) {
+      ['utopico.amanecer', 'bmblackmidi', 'lacrifagia.banda'].forEach(targetUsername => {
+        if (userMap[targetUsername]) {
+          userMap['bogardus.ok'].siguiendo.push(userMap[targetUsername]._id);
+          userMap[targetUsername].seguidores.push(userMap['bogardus.ok']._id);
+        }
+      });
+    }
+
+    // Favorito de Juan Perez
+    if (userMap['juanperez'] && seededEvents[0]) {
+      userMap['juanperez'].favoritos.push(seededEvents[0]._id);
+    }
+
+    for (const u of Object.values(userMap)) {
+      await u.save();
+    }
 
     console.log(`✓ ${seededEvents.length} eventos under cargados con éxito`);
-    console.log(`✓ ${seededUsers.length} usuarios con perfiles completos cargados con éxito`);
+    console.log(`✓ ${seededUsers.length} usuarios con perfiles completos y lemas cargados con éxito`);
     process.exit();
   } catch (err) {
     console.error(err);

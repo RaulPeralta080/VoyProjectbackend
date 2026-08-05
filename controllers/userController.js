@@ -2,13 +2,30 @@ const User = require('../models/User');
 
 const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user._id)
+      .populate('seguidores', 'nombre username avatar avatarUrl fotoPerfil avatarColor role lema')
+      .populate('siguiendo', 'nombre username avatar avatarUrl fotoPerfil avatarColor role lema');
     if (!user) {
       return res.status(401).json({ mensaje: 'No autorizado, usuario no encontrado' });
     }
     res.json(user);
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al obtener el perfil' });
+  }
+};
+
+const getAllArtists = async (req, res) => {
+  try {
+    const artists = await User.find({
+      $or: [
+        { rol: 'artista' },
+        { role: 'artist' },
+        { rol: 'artist' }
+      ]
+    }).select('nombre username avatar avatarUrl fotoPerfil lema bio _id');
+    res.json(artists);
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al obtener lista de artistas' });
   }
 };
 
@@ -99,7 +116,9 @@ const getPublicProfile = async (req, res) => {
       query = { $or: [{ _id: param }, { username: param }] };
     }
 
-    const user = await User.findOne(query);
+    const user = await User.findOne(query)
+      .populate('seguidores', 'nombre username avatar avatarUrl fotoPerfil avatarColor role lema')
+      .populate('siguiendo', 'nombre username avatar avatarUrl fotoPerfil avatarColor role lema');
 
     if (!user) {
       return res.status(404).json({ mensaje: 'Usuario no encontrado' });
@@ -120,7 +139,8 @@ const getPublicProfile = async (req, res) => {
       recitalMemorable: user.recitalMemorable,
       bio: user.bio,
       ubicacion: user.ubicacion,
-      rol: user.rol,
+      role: user.role,
+      rol: user.rol || user.role,
       redesSociales: user.redesSociales,
       seguidores: user.seguidores,
       siguiendo: user.siguiendo,
@@ -233,6 +253,7 @@ const toggleFavorite = async (req, res) => {
 
 module.exports = {
   getUserProfile,
+  getAllArtists,
   updateUserProfile,
   getPublicProfile,
   checkUsername,

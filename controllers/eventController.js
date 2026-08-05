@@ -53,7 +53,7 @@ const getEvents = async (req, res) => {
     let query = Event.find(filter)
       .sort({ fecha: 1 })
       .populate('creador', 'nombre username avatar')
-      .populate('artistas.usuario', 'nombre username avatar avatarUrl fotoPerfil avatarColor bannerImagen bannerGradiente bannerColor bio role rol redesSociales');
+      .populate('artistas.usuario', 'nombre username avatar avatarUrl fotoPerfil avatarColor bannerImagen bannerGradiente bannerColor lema bio role rol redesSociales');
 
     const parsedLimit = parseInt(limit);
     if (!isNaN(parsedLimit) && parsedLimit > 0) {
@@ -79,7 +79,7 @@ const getEventById = async (req, res) => {
 
     const evento = await Event.findById(id)
       .populate('creador', 'nombre username avatar')
-      .populate('artistas.usuario', 'nombre username avatar avatarUrl fotoPerfil avatarColor bannerImagen bannerGradiente bannerColor bio role rol redesSociales')
+      .populate('artistas.usuario', 'nombre username avatar avatarUrl fotoPerfil avatarColor bannerImagen bannerGradiente bannerColor lema bio role rol redesSociales')
       .populate('comentarios.usuario', 'nombre username avatar avatarUrl fotoPerfil avatarColor role rol');
 
     if (!evento) {
