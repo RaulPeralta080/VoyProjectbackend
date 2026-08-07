@@ -1,29 +1,9 @@
 const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
 const { OAuth2Client } = require('google-auth-library');
+const { findUserByEmail, findUserByUsername, generateUniqueUsername } = require('../services/authService');
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-
-// Helper para generar username único en backend
-async function generateUniqueUsernameBackend(baseName) {
-  let clean = baseName.toLowerCase()
-    .trim()
-    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9._]/g, "");
-  if (!clean) clean = "usuario";
-  
-  let candidate = clean;
-  let exists = await User.findOne({ username: candidate });
-  let attempts = 0;
-  
-  while (exists && attempts < 20) {
-    const randomNum = Math.floor(100 + Math.random() * 900);
-    candidate = `${clean}${randomNum}`;
-    exists = await User.findOne({ username: candidate });
-    attempts++;
-  }
-  return candidate;
-}
 
 // @desc    Registrar usuario
 // @route   POST /api/auth/register
@@ -37,7 +17,7 @@ const registerUser = async (req, res) => {
   const normalizedEmail = email.trim().toLowerCase();
 
   try {
-    const userExists = await User.findOne({ email: normalizedEmail });
+    const userExists = await findUserByEmail(normalizedEmail);
     if (userExists) {
       return res.status(400).json({ mensaje: 'Este email ya está registrado. Usá otro email o iniciá sesión.' });
     }
@@ -45,14 +25,14 @@ const registerUser = async (req, res) => {
     let finalUsername = "";
     if (username && username.trim()) {
       const cleanUsername = username.trim().toLowerCase();
-      const usernameExists = await User.findOne({ username: cleanUsername });
+      const usernameExists = await findUserByUsername(cleanUsername);
       if (usernameExists) {
         return res.status(400).json({ mensaje: `El nombre de usuario @${cleanUsername} ya está en uso. Elegí otro.` });
       }
       finalUsername = cleanUsername;
     } else {
       // Generar automáticamente un username único para cualquier usuario (Fan, Artista, Productor)
-      finalUsername = await generateUniqueUsernameBackend(nombre);
+      finalUsername = await generateUniqueUsername(nombre);
     }
 
     // Role defaults to client if not specified or invalid

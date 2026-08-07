@@ -68,12 +68,12 @@ const usuariosDePrueba = [
     email: 'danny@test.com',
     password: 'password123',
     username: 'danny_proyectil',
-    avatar: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
-    avatarUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
-    fotoPerfil: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
-    bannerImagen: '/flyer-danny-proyectil.png',
-    lema: 'Post-punk y grunge tucumano con actitud New Direction.',
-    bio: 'Trío de post-punk, grunge y rock alternativo de Yerba Buena. Sonido oscuro con bajos pulsantes, distorsiones ruidosas y letras urbanas.',
+    avatar: '/dannyproyectil-avatar.png',
+    avatarUrl: '/dannyproyectil-avatar.png',
+    fotoPerfil: '/dannyproyectil-avatar.png',
+    bannerImagen: '/dannyproyectil-banner.png',
+    lema: 'Hacemos música instrumental.',
+    bio: 'Hacemos música instrumental.',
     ubicacion: 'Yerba Buena',
     rol: 'artista',
     role: 'artist',
@@ -125,16 +125,16 @@ const usuariosDePrueba = [
     email: 'utopico@test.com',
     password: 'password123',
     username: 'utopico.amanecer',
-    avatar: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80',
-    avatarUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80',
-    fotoPerfil: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80',
-    bannerImagen: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1200&q=80',
-    lema: 'Dream rock y synth pop en texturas envolventes.',
-    bio: 'Proyecto de dream rock y synth pop alternativo que oscila entre la nostalgia sintetizada, la euforia y climas nocturnos.',
+    avatar: '/utopicoamanecer-avatar.png',
+    avatarUrl: '/utopicoamanecer-avatar.png',
+    fotoPerfil: '/utopicoamanecer-avatar.png',
+    bannerImagen: '/utopicoamanecer-banner.png',
+    lema: 'EUSTALGIA ya disponible en todas nuestras plataformas.',
+    bio: 'EUSTALGIA ya disponible en todas nuestras plataformas.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'artista',
     role: 'artist',
-    redesSociales: { instagram: '@utopico.amanecer', spotifyTrack: 'https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b' },
+    redesSociales: { instagram: '@utopico.amanecer', spotifyTrack: 'https://open.spotify.com/track/5PCoH5xzGhciRy1KWgkLY7?si=d7e13045248f46eb' },
     avatarColor: 'none',
     bannerGradiente: 'g5'
   },
@@ -282,16 +282,16 @@ const usuariosDePrueba = [
     email: 'entrepenumbras@test.com',
     password: 'password123',
     username: 'entrepenumbras',
-    avatar: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80',
-    avatarUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80',
-    fotoPerfil: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80',
-    bannerImagen: 'https://images.unsplash.com/photo-1508854710579-5cecc3a9ff17?auto=format&fit=crop&w=1200&q=80',
-    lema: 'Post-punk atmosférico y paisajes sombríos.',
-    bio: 'Proyecto de post-punk y shoegaze emergente de San Miguel de Tucumán. Texturas sombrías y atmósferas nocturnas.',
+    avatar: '/entrepenumbras-avatar.png',
+    avatarUrl: '/entrepenumbras-avatar.png',
+    fotoPerfil: '/entrepenumbras-avatar.png',
+    bannerImagen: '/entrepenumbras-banner.png',
+    lema: 'Banda hardcore de San Miguel de Tucumán que nace en dic de 2020, en un contexto particular del mundo.',
+    bio: 'Banda hardcore de San Miguel de Tucumán que nace en dic de 2020, en un contexto particular del mundo.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'artista',
     role: 'artist',
-    redesSociales: { instagram: '@entrepenumbras' },
+    redesSociales: { instagram: '@entrepenumbras', spotifyTrack: 'https://open.spotify.com/track/6KvF0h8DZI7FBONenQ0Afq?si=10867e047af74d85' },
     avatarColor: 'none',
     bannerGradiente: 'g1'
   },
@@ -300,17 +300,17 @@ const usuariosDePrueba = [
     email: 'parasalir@test.com',
     password: 'password123',
     username: 'parasalirdelaoscuridad',
-    avatar: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
-    avatarUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
-    fotoPerfil: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
-    bannerImagen: '/flyer-lacrifagia.png',
-    lema: 'Screamo, emo noventero y catarsis colectiva.',
-    bio: 'Banda de screamo y emo violencia tucumana. Canciones urgentes, pasajes armónicos y un directo cargado de emoción cruda.',
+    avatar: '/parasalirdelaoscuridad-avatar.png',
+    avatarUrl: '/parasalirdelaoscuridad-avatar.png',
+    fotoPerfil: '/parasalirdelaoscuridad-avatar.png',
+    bannerImagen: '/parasalirdelaoscuridad-banner.png',
+    lema: 'ESCUCHÁ NUESTRO SINGLE "HERMANO" EN TODAS LAS PLATAFORMAS',
+    bio: 'ESCUCHÁ NUESTRO SINGLE "HERMANO" EN TODAS LAS PLATAFORMAS',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'artista',
     role: 'artist',
-    redesSociales: { instagram: '@parasalirdelaoscuridad' },
-    avatarColor: '#FF2D78',
+    redesSociales: { instagram: '@parasalirdelaoscuridad', spotifyTrack: 'https://open.spotify.com/track/03bDbfkojQCELp6tYhWJzt?si=084caf87f4a74b0e' },
+    avatarColor: 'none',
     bannerGradiente: 'g2'
   },
   {
@@ -318,17 +318,17 @@ const usuariosDePrueba = [
     email: 'lascosas@test.com',
     password: 'password123',
     username: 'lascosasinexplicables',
-    avatar: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80',
-    avatarUrl: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80',
-    fotoPerfil: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80',
-    bannerImagen: '/flyer-las-cosas-inexplicables.png',
-    lema: 'Math rock e indie instrumental de compases desarmados.',
-    bio: 'Cuarteto de math rock e indie progresivo tucumano. Complejidad rítmica, guitarras entrelazadas y climas instrumentales dinámicos.',
+    avatar: '/lascosasinexplicables-avatar.png',
+    avatarUrl: '/lascosasinexplicables-avatar.png',
+    fotoPerfil: '/lascosasinexplicables-avatar.png',
+    bannerImagen: '/lascosasinexplicables-banner.png',
+    lema: 'Las cosas inexplicables suceden a pesar de todo.',
+    bio: 'Las cosas inexplicables suceden a pesar de todo.',
     ubicacion: 'San Miguel de Tucumán',
     rol: 'artista',
     role: 'artist',
-    redesSociales: { instagram: '@lascosasinexplicables' },
-    avatarColor: '#00FF9F',
+    redesSociales: { instagram: '@lascosasinexplicables', spotifyTrack: 'https://open.spotify.com/track/6aOQ9UpwxQLk8eNEbYdsKT?si=36544c1eafc140f9' },
+    avatarColor: 'none',
     bannerGradiente: 'g3'
   }
 ];
@@ -492,7 +492,8 @@ const seedDB = async () => {
     const eventosConCreador = eventosDePruebaSinUsuarios.map(evento => {
       const artistasConUsuario = (evento.artistasBandas || []).map(a => ({
         nombre: a.nombre,
-        headliner: a.headliner || false,
+        headliner: a.headliner || a.debut || false,
+        debut: a.debut || a.headliner || false,
         usuario: a.username ? userMapByUsername[a.username] || null : null
       }));
 
@@ -505,53 +506,9 @@ const seedDB = async () => {
     
     const seededEvents = await Event.insertMany(eventosConCreador);
 
-    // ─── CONEXIONES SOCIALES DE SEGUIDORES Y SIGUIENDO REALES ──────────────────
+    // ─── CONEXIONES SOCIALES ──────────────────
     const userMap = {};
     seededUsers.forEach(u => { userMap[u.username] = u; });
-
-    // Juan Perez sigue a Lacrifagia, Bogardus, Danny Proyectil
-    if (userMap['juanperez'] && userMap['lacrifagia.banda']) {
-      userMap['juanperez'].siguiendo.push(userMap['lacrifagia.banda']._id);
-      userMap['lacrifagia.banda'].seguidores.push(userMap['juanperez']._id);
-    }
-    if (userMap['juanperez'] && userMap['bogardus.ok']) {
-      userMap['juanperez'].siguiendo.push(userMap['bogardus.ok']._id);
-      userMap['bogardus.ok'].seguidores.push(userMap['juanperez']._id);
-    }
-    if (userMap['juanperez'] && userMap['danny_proyectil']) {
-      userMap['juanperez'].siguiendo.push(userMap['danny_proyectil']._id);
-      userMap['danny_proyectil'].seguidores.push(userMap['juanperez']._id);
-    }
-
-    // Lacrifagia sigue a Danny Proyectil, Las Maldiciones, Para Salir de la Oscuridad y Mientras el Lobo
-    if (userMap['lacrifagia.banda']) {
-      ['danny_proyectil', 'las.maldiciones', 'parasalirdelaoscuridad', 'mientraselobo'].forEach(targetUsername => {
-        if (userMap[targetUsername]) {
-          userMap['lacrifagia.banda'].siguiendo.push(userMap[targetUsername]._id);
-          userMap[targetUsername].seguidores.push(userMap['lacrifagia.banda']._id);
-        }
-      });
-    }
-
-    // Danny Proyectil sigue a Lacrifagia, Bogardus y Entre Penumbras
-    if (userMap['danny_proyectil']) {
-      ['lacrifagia.banda', 'bogardus.ok', 'entrepenumbras'].forEach(targetUsername => {
-        if (userMap[targetUsername]) {
-          userMap['danny_proyectil'].siguiendo.push(userMap[targetUsername]._id);
-          userMap[targetUsername].seguidores.push(userMap['danny_proyectil']._id);
-        }
-      });
-    }
-
-    // Bogardus sigue a Utópico Amanecer y black midi
-    if (userMap['bogardus.ok']) {
-      ['utopico.amanecer', 'bmblackmidi', 'lacrifagia.banda'].forEach(targetUsername => {
-        if (userMap[targetUsername]) {
-          userMap['bogardus.ok'].siguiendo.push(userMap[targetUsername]._id);
-          userMap[targetUsername].seguidores.push(userMap['bogardus.ok']._id);
-        }
-      });
-    }
 
     // Favorito de Juan Perez
     if (userMap['juanperez'] && seededEvents[0]) {

@@ -1,12 +1,17 @@
+/*
+ * Integración con MercadoPago (Checkout y Webhooks)
+ * Genera la preferencia de pago mediante el SDK oficial y procesa las
+ * notificaciones Webhook entrantes actualizando el estado de la orden y
+ * descontando el stock correspondiente de forma idempotente.
+ */
+
 const { MercadoPagoConfig, Preference, Payment } = require('mercadopago');
 const mongoose = require('mongoose');
 const Order = require('../models/Order');
 const Event = require('../models/Event');
 
-// Configurar cliente de Mercado Pago
 const client = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN });
 
-// Crear preferencia de MercadoPago y guardar orden pendiente 
 const createPreference = async (req, res) => {
   try {
     const { eventId, cantidad, datosComprador } = req.body;
@@ -15,7 +20,6 @@ const createPreference = async (req, res) => {
     if (!evento) return res.status(404).json({ mensaje: 'Evento no encontrado' });
     if (evento.stock < cantidad) return res.status(400).json({ mensaje: 'Stock insuficiente' });
 
-    // Generamos el ID de la orden ANTES para mandarlo a MP como external_reference
     const orderId = new mongoose.Types.ObjectId();
 
     const baseUrl = (process.env.FRONTEND_URL && process.env.FRONTEND_URL.trim() !== '')
@@ -34,9 +38,6 @@ const createPreference = async (req, res) => {
             currency_id: 'ARS',
           }
         ],
-        // Eliminamos el objeto "payer" por completo. 
-        // Dejar que MercadoPago le pida el mail al usuario en su propia pantalla
-        // evita el 100% de los bloqueos de "autocompra" y problemas de credenciales.
         external_reference: orderId.toString(),
         back_urls: {
           success: `${baseUrl}/compra/confirmacion`,
@@ -52,7 +53,7 @@ const createPreference = async (req, res) => {
     const totalCalculado = evento.precio * cantidad;
 
     await Order.create({
-      _id: orderId, // Usamos el ID generado
+      _id: orderId,
       userId: req.user._id,
       eventId,
       cantidad,
@@ -65,8 +66,6 @@ const createPreference = async (req, res) => {
       mpPreferenceId: result.id
     });
 
-    // Siempre usamos init_point. sandbox_init_point está deprecado y causa ERR_TOO_MANY_REDIRECTS.
-    // MercadoPago detecta automáticamente si el Token es de prueba y adapta el init_point.
     res.status(200).json({
       preferenceId: result.id,
       initPoint: result.init_point
@@ -81,56 +80,43 @@ const createPreference = async (req, res) => {
   }
 };
 
-// Recibir notificaciones de Mercado Pago (Webhook)
-
 const receiveWebhook = async (req, res) => {
-  // 1. Criterio de aceptación: Responder 200 OK inmediatamente a MP
   res.status(200).send('OK');
-
-  console.log('--- WEBHOOK RECIBIDO DE MERCADOPAGO ---');
-  console.log('Body:', JSON.stringify(req.body, null, 2));
-  console.log('Query:', JSON.stringify(req.query, null, 2));
 
   try {
     const { type, data, action } = req.body;
 
-    // 2. Procesamos si es 'payment' o si la query dice topic=payment
     if (type === 'payment' || action?.startsWith('payment') || req.query.topic === 'payment' || req.body.resource) {
       let paymentId = data?.id || req.query.id || req.body.id;
 
-      // MP a veces manda la info en el campo "resource" (ej: "/v1/payments/123456")
       if (!paymentId && req.body.resource) {
         paymentId = req.body.resource.split('/').pop();
       }
 
       if (!paymentId) return;
 
-      console.log('Consultando estado del pago ID:', paymentId);
-      // Consultar el estado real del pago con el SDK
       const payment = new Payment(client);
       const paymentInfo = await payment.get({ id: paymentId });
 
       const { status, external_reference } = paymentInfo;
 
-      if (!external_reference) return; // Si no hay referencia, no es una orden nuestra
+      if (!external_reference) return;
 
-      // 3. Mapear estados de MP a nuestro Enum
       let nuevoEstado = 'PENDIENTE';
       if (status === 'approved') nuevoEstado = 'PAGADA';
       else if (status === 'rejected') nuevoEstado = 'RECHAZADA';
       else if (status === 'in_process') nuevoEstado = 'EN_PROCESO';
 
-      // 4. Buscar la orden en la BD
       const order = await Order.findById(external_reference);
       if (!order) return;
 
       const estadoAnterior = order.estadoPago;
 
-      // Actualizar datos de pago
       order.estadoPago = nuevoEstado;
-      order.mpPaymentId = data.id.toString();
+      if (data?.id) {
+        order.mpPaymentId = data.id.toString();
+      }
 
-      // 5. Criterio de aceptación: Idempotencia en el descuento de stock
       if (nuevoEstado === 'PAGADA' && estadoAnterior !== 'PAGADA') {
         await Event.findByIdAndUpdate(order.eventId, {
           $inc: { stock: -order.cantidad }
@@ -140,7 +126,6 @@ const receiveWebhook = async (req, res) => {
       await order.save();
     }
   } catch (error) {
-
     console.error('Error procesando webhook de MP:', error.message);
   }
 };

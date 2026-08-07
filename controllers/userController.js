@@ -1,10 +1,9 @@
 const User = require('../models/User');
+const { findUserByIdWithSocial, findRegisteredArtists, findUserByUsernameOrId } = require('../services/userService');
 
 const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id)
-      .populate('seguidores', 'nombre username avatar avatarUrl fotoPerfil avatarColor role lema')
-      .populate('siguiendo', 'nombre username avatar avatarUrl fotoPerfil avatarColor role lema');
+    const user = await findUserByIdWithSocial(req.user._id);
     if (!user) {
       return res.status(401).json({ mensaje: 'No autorizado, usuario no encontrado' });
     }
@@ -16,13 +15,7 @@ const getUserProfile = async (req, res) => {
 
 const getAllArtists = async (req, res) => {
   try {
-    const artists = await User.find({
-      $or: [
-        { rol: 'artista' },
-        { role: 'artist' },
-        { rol: 'artist' }
-      ]
-    }).select('nombre username avatar avatarUrl fotoPerfil lema bio _id');
+    const artists = await findRegisteredArtists();
     res.json(artists);
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al obtener lista de artistas' });
@@ -108,17 +101,8 @@ const updateUserProfile = async (req, res) => {
 
 const getPublicProfile = async (req, res) => {
   try {
-    const param = req.params.username.trim().toLowerCase();
-    
-    let query = { username: param };
-    const mongoose = require('mongoose');
-    if (mongoose.Types.ObjectId.isValid(param)) {
-      query = { $or: [{ _id: param }, { username: param }] };
-    }
-
-    const user = await User.findOne(query)
-      .populate('seguidores', 'nombre username avatar avatarUrl fotoPerfil avatarColor role lema')
-      .populate('siguiendo', 'nombre username avatar avatarUrl fotoPerfil avatarColor role lema');
+    const param = req.params.username.trim();
+    const user = await findUserByUsernameOrId(param);
 
     if (!user) {
       return res.status(404).json({ mensaje: 'Usuario no encontrado' });

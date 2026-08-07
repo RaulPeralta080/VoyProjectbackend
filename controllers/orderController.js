@@ -1,11 +1,10 @@
 const Order = require('../models/Order');
 const Event = require('../models/Event');
+const { fetchUserOrders, findOrderById } = require('../services/orderService');
 
 const getMyOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ userId: req.user._id })
-      .populate('eventId', 'nombre fecha hora lugar imagen artistas')
-      .sort({ createdAt: -1 });
+    const orders = await fetchUserOrders(req.user._id);
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al obtener las órdenes' });
@@ -14,9 +13,7 @@ const getMyOrders = async (req, res) => {
 
 const getOrderById = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id)
-      .populate('eventId', 'nombre fecha hora lugar imagen artistas precio generos stock')
-      .populate('userId', 'nombre email');
+    const order = await findOrderById(req.params.id);
     if (!order) {
       return res.status(404).json({ mensaje: 'Orden no encontrada' });
     }

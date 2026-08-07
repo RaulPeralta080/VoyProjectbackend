@@ -24,6 +24,7 @@ const eventSchema = new mongoose.Schema({
   artistas: [{
     nombre: { type: String, required: true },
     headliner: { type: Boolean, default: false },
+    debut: { type: Boolean, default: false },
     usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
   }],
   stock:          { type: Number, default: 0 },

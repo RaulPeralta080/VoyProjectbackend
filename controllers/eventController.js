@@ -1,87 +1,24 @@
 const { Types: { ObjectId } } = require('mongoose');
 const Event = require('../models/Event');
+const { fetchEventsWithFilter, findEventById } = require('../services/eventService');
 
-// @desc    Obtener lista de eventos con filtros opcionales
-// @route   GET /api/events
 const getEvents = async (req, res) => {
   try {
-    const { genero, lugar, fecha, limit, artist } = req.query;
-    let filter = {};
-
-    // 1. Filtro por Género
-    if (genero) {
-      const generosArray = genero.split(',').map(g => g.trim());
-      filter.generos = { $in: generosArray.map(g => new RegExp(`^${g}$`, 'i')) };
-    }
-
-    // 2. Filtro por Lugar
-    if (lugar) {
-      filter.lugar = new RegExp(lugar, 'i');
-    }
-
-    // Filtro por Artista (búsqueda parcial sobre el array de artistas)
-    if (artist) {
-      filter['artistas.nombre'] = new RegExp(artist, 'i');
-    }
-
-    // 3. Filtro por Fecha
-    if (fecha) {
-      const parsedDate = new Date(fecha);
-      if (isNaN(parsedDate.getTime())) {
-        return res.status(400).json({ mensaje: 'Fecha inválida' });
-      }
-      const startOfDay = new Date(fecha);
-      startOfDay.setUTCHours(0, 0, 0, 0);
-      const endOfDay = new Date(fecha);
-      endOfDay.setUTCHours(23, 59, 59, 999);
-      filter.fecha = { $gte: startOfDay, $lte: endOfDay };
-    }
-
-    // 4. Filtro por Precio Máximo
-    if (req.query.maxPrice) {
-      filter.precio = { $lte: Number(req.query.maxPrice) };
-    }
-
-    // Solo eventos activos/publicados (a menos que seas admin)
-    // Para simplificar, devolvemos todo en esta ruta pública como antes.
-
-    // Siempre filtrar solo eventos futuros o de hoy en adelante
-    const startOfToday = new Date();
-    startOfToday.setUTCHours(0, 0, 0, 0);
-    filter.fecha = { ...filter.fecha, $gte: startOfToday };
-
-    let query = Event.find(filter)
-      .sort({ fecha: 1 })
-      .populate('creador', 'nombre username avatar')
-      .populate('artistas.usuario', 'nombre username avatar avatarUrl fotoPerfil avatarColor bannerImagen bannerGradiente bannerColor lema bio role rol redesSociales');
-
-    const parsedLimit = parseInt(limit);
-    if (!isNaN(parsedLimit) && parsedLimit > 0) {
-      query = query.limit(parsedLimit);
-    }
-
-    const eventos = await query;
+    const eventos = await fetchEventsWithFilter(req.query);
     res.status(200).json(eventos);
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al obtener los eventos' });
   }
 };
 
-// @desc    Obtener detalle de un evento por ID
-// @route   GET /api/events/:id
 const getEventById = async (req, res) => {
   try {
     const { id } = req.params;
-
     if (!ObjectId.isValid(id)) {
       return res.status(400).json({ mensaje: 'ID de evento inválido' });
     }
 
-    const evento = await Event.findById(id)
-      .populate('creador', 'nombre username avatar')
-      .populate('artistas.usuario', 'nombre username avatar avatarUrl fotoPerfil avatarColor bannerImagen bannerGradiente bannerColor lema bio role rol redesSociales')
-      .populate('comentarios.usuario', 'nombre username avatar avatarUrl fotoPerfil avatarColor role rol');
-
+    const evento = await findEventById(id);
     if (!evento) {
       return res.status(404).json({ mensaje: 'Evento no encontrado' });
     }
@@ -196,10 +133,16 @@ const updateEvent = async (req, res) => {
       return res.status(403).json({ mensaje: 'No tienes permiso para editar este evento' });
     }
 
-    event = await Event.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const body = { ...req.body };
+    if (body.coordinates) {
+      body.location = { type: 'Point', coordinates: body.coordinates };
+    }
+
+    event = await Event.findByIdAndUpdate(req.params.id, body, { new: true, runValidators: true });
     res.json(event);
   } catch (error) {
-    res.status(400).json({ mensaje: 'Error al actualizar evento' });
+    console.error("Error en updateEvent:", error);
+    res.status(400).json({ mensaje: error.message || 'Error al actualizar evento' });
   }
 };
 
