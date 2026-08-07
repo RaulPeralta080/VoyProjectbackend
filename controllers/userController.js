@@ -43,7 +43,9 @@ const updateUserProfile = async (req, res) => {
       'bannerImagen',
       'lema',
       'generosMusicales',
-      'vibeEnShows'
+      'vibeEnShows',
+      'role',
+      'onboardingCompleted'
     ];
     const updates = {};
 

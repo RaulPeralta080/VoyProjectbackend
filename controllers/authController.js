@@ -117,14 +117,19 @@ const googleLogin = async (req, res) => {
 
     let user = await User.findOne({ email });
 
+    let isNewUser = false;
     if (!user) {
-      // Creamos una contraseña aleatoria robusta porque el modelo lo exige
+      isNewUser = true;
       const randomPassword = Math.random().toString(36).slice(-10) + Math.random().toString(36).slice(-10) + "Go0gL3!";
       user = await User.create({
         nombre: name,
         email: email,
         password: randomPassword,
-        avatar: picture,
+        avatar: picture || null,
+        avatarUrl: picture || null,
+        fotoPerfil: picture || null,
+        role: 'client',
+        onboardingCompleted: false
       });
     }
 
@@ -136,10 +141,13 @@ const googleLogin = async (req, res) => {
       _id: user._id,
       nombre: user.nombre,
       email: user.email,
-      role: user.role,
-      avatar: user.avatar,
+      role: user.role || 'client',
+      avatar: user.avatar || user.fotoPerfil || user.avatarUrl || null,
+      avatarUrl: user.avatarUrl || user.fotoPerfil || user.avatar || null,
       isPendingApproval: user.isPendingApproval,
-      token: generateToken(user._id, user.role)
+      onboardingCompleted: !!user.onboardingCompleted,
+      isNewUser: isNewUser || !user.onboardingCompleted,
+      token: generateToken(user._id, user.role || 'client')
     });
 
   } catch (error) {
