@@ -330,11 +330,51 @@ const usuariosDePrueba = [
     redesSociales: { instagram: '@lascosasinexplicables', spotifyTrack: 'https://open.spotify.com/track/6aOQ9UpwxQLk8eNEbYdsKT?si=36544c1eafc140f9' },
     avatarColor: 'none',
     bannerGradiente: 'g3'
+  },
+  {
+    nombre: 'Corpúsculos de Krause',
+    email: 'corpusculos@test.com',
+    password: 'password123',
+    username: 'corpusculosdekrause',
+    avatar: '/corpusculosdekrause-avatar.png',
+    avatarUrl: '/corpusculosdekrause-avatar.png',
+    fotoPerfil: '/corpusculosdekrause-avatar.png',
+    bannerImagen: '/corpusculosdekrause-banner.png',
+    lema: 'Rock alternativo crudo y emocional.',
+    bio: 'Rock alternativo crudo y emocional.',
+    ubicacion: 'San Miguel de Tucumán',
+    rol: 'artista',
+    role: 'artist',
+    generosMusicales: ['Rock Alternativo', 'Post-Hardcore', 'Emotional Hardcore'],
+    vibeEnShows: ['Pogo', 'Mosh pit', 'Cerveza en mano'],
+    redesSociales: {
+      instagram: '@corpusculosdekrause',
+      spotifyTrack: 'https://open.spotify.com/track/3N19wV74lvJBRVFpWhQJR1?si=a8ff8cf7b94a486a'
+    },
+    avatarColor: 'none',
+    bannerGradiente: 'g2'
   }
 ];
 
 const eventosDePruebaSinUsuarios = [
   // ─── FLYERS REALES CON SUS GRILLAS ORIGINALES RESTAURADAS ──────────────────
+  {
+    nombre: "Para Salir de la Oscuridad, Lacrifagia",
+    imagen: "/flyer-lacrifagia.png",
+    generos: ["Post-Hardcore", "Emotional Hardcore", "Rock Alternativo"],
+    fecha: new Date("2026-05-08"),
+    hora: "21:00",
+    lugar: "Bar Floresta, Av. Colón 471",
+    descripcion: "Lacrifagia presenta Para Salir de la Oscuridad en Bar Floresta (Av. Colón 471) junto a Para Salir de la Oscuridad y Corpúsculos de Krause. Post-hardcore, emotional hardcore y rock alternativo crudo y emocional.",
+    precio: 5000,
+    artistasBandas: [
+      { nombre: "Lacrifagia", username: "lacrifagia.banda", headliner: true },
+      { nombre: "Para Salir de la Oscuridad", username: "parasalirdelaoscuridad" },
+      { nombre: "Corpúsculos de Krause", username: "corpusculosdekrause" },
+    ],
+    capacidadTotal: 120,
+    stock: 120,
+  },
   {
     nombre: "New Direction Show",
     imagen: "/flyer-danny-proyectil.png",
@@ -386,21 +426,6 @@ const eventosDePruebaSinUsuarios = [
     ],
     capacidadTotal: 150,
     stock: 150,
-  },
-  {
-    nombre: "Para Salir de la Oscuridad, Lacrifagia",
-    imagen: "/flyer-lacrifagia.png",
-    generos: ["Post-Hardcore", "Emo", "Screamo"],
-    fecha: new Date("2026-10-17"),
-    hora: "21:00",
-    lugar: "Utopía Bar, Laprida 330",
-    descripcion: "Lacrifagia presenta Para Salir de la Oscuridad en Utopía. Show íntimo, entradas contadas. El material nuevo es denso y honesto.",
-    precio: 5000,
-    artistasBandas: [
-      { nombre: "Lacrifagia", username: "lacrifagia.banda", headliner: true },
-    ],
-    capacidadTotal: 50,
-    stock: 45,
   },
 
   // ─── NUEVOS EVENTOS DEDICADOS A LOS NUEVOS ARTISTAS Y EASTER EGG ────────────

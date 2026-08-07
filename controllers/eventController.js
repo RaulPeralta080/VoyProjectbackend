@@ -114,7 +114,7 @@ const createEvent = async (req, res) => {
       location: { type: 'Point', coordinates },
       artistas,
       generos,
-      imagen: req.file ? req.file.path : '' // URL de Cloudinary
+      imagen: req.file ? req.file.path : (body.imagen || '')
     });
 
     res.status(201).json(nuevoEvento);
